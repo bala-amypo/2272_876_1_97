@@ -20,15 +20,15 @@ public class VerificationLog {
     private LocalDateTime verifiedAt;
 
     @Column(nullable = false)
-    private String status; // SUCCESS / FAILED
+    private String status; 
 
     private String ipAddress;
 
-    // ✅ Default constructor
+    
     public VerificationLog() {
     }
 
-    // ✅ Parameterized constructor
+    
     public VerificationLog(Certificate certificate, String status, String ipAddress) {
         this.certificate = certificate;
         this.status = status;
@@ -44,7 +44,7 @@ public class VerificationLog {
         }
     }
 
-    // 🔽 Getters and Setters
+   
     public long getId() {
         return id;
     }
