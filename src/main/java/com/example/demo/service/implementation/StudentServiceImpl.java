@@ -1,26 +1,26 @@
-package com.example.demo.service.implementation;
+// package com.example.demo.service.implementation;
 
-import org.springframework.stereotype.Service;
-import java.util.*;
+// import org.springframework.stereotype.Service;
+// import java.util.*;
 
-import com.example.demo.entity.Student;
-import com.example.demo.repository.StudentRepository;
-import com.example.demo.service.StudentService;
+// import com.example.demo.entity.Student;
+// import com.example.demo.repository.StudentRepository;
+// import com.example.demo.service.StudentService;
 
-@Service
-public class StudentServiceImpl implements StudentService {
+// @Service
+// public class StudentServiceImpl implements StudentService {
 
-    private final StudentRepository repository;
+//     private final StudentRepository repository;
 
-    public StudentServiceImpl(StudentRepository repository) {
-        this.repository = repository;
-    }
+//     public StudentServiceImpl(StudentRepository repository) {
+//         this.repository = repository;
+//     }
 
-    public Student addData(Student stu) {
-        return repository.save(stu); 
-    }
+//     public Student addData(Student stu) {
+//         return repository.save(stu); 
+//     }
 
-    public List<Student> fetchRecord() {
-        return repository.findAll();
-    }
-}
+//     public List<Student> fetchRecord() {
+//         return repository.findAll();
+//     }
+// }

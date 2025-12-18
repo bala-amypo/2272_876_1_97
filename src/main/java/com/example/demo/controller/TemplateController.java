@@ -9,12 +9,11 @@ import com.example.demo.service.TemplateService;
 
 @RestController
 @RequestMapping("/templates")
-public class CertificateTemplateController {
+public class TemplateController {
 
     private final TemplateService templateService;
 
-    /
-    public CertificateTemplateController(TemplateService templateService) {
+    public TemplateController(TemplateService templateService) {
         this.templateService = templateService;
     }
 
