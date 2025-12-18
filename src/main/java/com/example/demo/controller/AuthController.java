@@ -1,6 +1,10 @@
 package com.example.demo.controller;
 @RestController
 public class AuthController{
+    private final UserService userservice;
+    public UserService
+
+    
     @PostMapping("/register")
     public User createData(@RequestBody User use){
         return 
