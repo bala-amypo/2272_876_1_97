@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
-@Builder.Default
+@Builder
 public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
