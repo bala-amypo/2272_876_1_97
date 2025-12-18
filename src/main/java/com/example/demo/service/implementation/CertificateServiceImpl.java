@@ -1,50 +1,50 @@
 package com.example.demo.service.implementation;
 
-import lombok.RequiredArgsConstructor;
+import java.util.UUID;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Certificate;
-import com.example.demo.entity.Student;
 import com.example.demo.entity.CertificateTemplate;
+import com.example.demo.entity.Student;
 import com.example.demo.repository.CertificateRepository;
-import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.CertificateTemplateRepository;
+import com.example.demo.repository.StudentRepository;
 import com.example.demo.service.CertificateService;
 
-import java.time.LocalDate;
-import java.util.UUID;
-
 @Service
-@RequiredArgsConstructor
 public class CertificateServiceImpl implements CertificateService {
 
     private final CertificateRepository certificateRepository;
-    private final StudentRepository studentRepository;
     private final CertificateTemplateRepository templateRepository;
+    private final StudentRepository studentRepository;
 
+    public CertificateServiceImpl(
+            CertificateRepository certificateRepository,
+            CertificateTemplateRepository templateRepository,
+            StudentRepository studentRepository) {
 
-@Override
-public Certificate generateCertificate(Long studentId, Long templateId) {
+        this.certificateRepository = certificateRepository;
+        this.templateRepository = templateRepository;
+        this.studentRepository = studentRepository;
+    }
 
-    Student student = studentRepository.findById(studentId)
-            .orElseThrow(() -> new RuntimeException("Student not found"));
+    @Override
+    public Certificate generateCertificate(Long studentId, Long templateId) {
 
-    CertificateTemplate template = templateRepository.findById(templateId)
-            .orElseThrow(() -> new RuntimeException("Template not found"));
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
 
-   
-    String code = UUID.randomUUID().toString();
+        CertificateTemplate template = templateRepository.findById(templateId)
+                .orElseThrow(() -> new RuntimeException("Template not found"));
 
-    Certificate certificate = Certificate.builder()
-            .student(student)
-            .template(template)
-            .verificationCode(code)
-            .build();
+        String code = UUID.randomUUID().toString();
 
-    return certificateRepository.save(certificate);
-}
-
-
+        Certificate certificate = new Certificate();
+        certificate.setStudent(student);
+        certificate.setTemplate(template);
+        certificate.setVerificationCode(code);
 
         return certificateRepository.save(certificate);
     }
