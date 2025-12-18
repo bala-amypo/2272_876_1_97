@@ -2,22 +2,33 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import lombok.Builder;
+
 @Entity
 @Builder
-public class VerificationLog{
+public class VerificationLog {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToOne
-     @JoinColumn(name = "certificate_id", nullable = false)
-     private Certificate certificate;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "certificate_id", nullable = false)
+    private Certificate certificate;
+
+    @Column(nullable = false, updatable = false)
     private LocalDateTime verifiedAt;
-    private String status;
+
+    @Column(nullable = false)
+    private String status; // SUCCESS / FAILED
+
     private String ipAddress;
-     
+
+    // ✅ Default constructor
     public VerificationLog() {
     }
 
+    // ✅ Parameterized constructor
     public VerificationLog(Certificate certificate, String status, String ipAddress) {
         this.certificate = certificate;
         this.status = status;
@@ -28,16 +39,18 @@ public class VerificationLog{
     @PrePersist
     private void onVerify() {
         this.verifiedAt = LocalDateTime.now();
-
-      
         if (status != null) {
             this.status = status.toUpperCase();
         }
     }
 
-   
+    // 🔽 Getters and Setters
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Certificate getCertificate() {
@@ -56,7 +69,6 @@ public class VerificationLog{
         return status;
     }
 
-  
     public void setStatus(String status) {
         if (!"SUCCESS".equalsIgnoreCase(status) && !"FAILED".equalsIgnoreCase(status)) {
             throw new IllegalArgumentException("Status must be SUCCESS or FAILED");
@@ -71,5 +83,4 @@ public class VerificationLog{
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
-
 }
