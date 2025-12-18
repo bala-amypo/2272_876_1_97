@@ -9,9 +9,9 @@ import com.example.demo.service.TemplateService;
 @RestController
 @RequestMapping("/templates")
 public class CertificateTemplateController{
-     private final Templateervice templateservice;
-    public StudentController(TemplateService templateservice){
-        this.Templateservice=Templateservice;
+     private final Templatservice templateservice;
+    public TemplateController(TemplateService templateservice){
+        this.templateservice=templateservice;
     }
 
     
