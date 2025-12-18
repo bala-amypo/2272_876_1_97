@@ -1,36 +1,36 @@
-// package com.example.demo.controller;
+package com.example.demo.controller;
 
-// import java.util.List;
+import java.util.List;
 
-// import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.*;
 
-// import com.example.demo.entity.VerificationLog;
-// import com.example.demo.service.VerificationService;
+import com.example.demo.entity.VerificationLog;
+import com.example.demo.service.VerificationService;
 
-// @RestController
-// @RequestMapping("/verify")
-// public class VerificationController {
+@RestController
+@RequestMapping("/verify")
+public class VerificationController {
 
-//     private final VerificationService verificationService;
+    private final VerificationService verificationService;
 
-//     public VerificationController(VerificationService verificationService) {
-//         this.verificationService = verificationService;
-//     }
-
-   
-//     @PostMapping("/{verificationCode}")
-//     public String verifyCertificate(
-//             @PathVariable String verificationCode) {
-
-//         verificationService.verifyCertificate(verificationCode);
-//         return "Certificate verified successfully";
-//     }
+    public VerificationController(VerificationService verificationService) {
+        this.verificationService = verificationService;
+    }
 
    
-//     @GetMapping("/logs/{certificateId}")
-//     public List<VerificationLog> getVerificationLogs(
-//             @PathVariable Long certificateId) {
+    @PostMapping("/{verificationCode}")
+    public String verifyCertificate(
+            @PathVariable String verificationCode) {
 
-//         return verificationService.getLogsByCertificateId(certificateId);
-//     }
-// }
+        verificationService.verifyCertificate(verificationCode);
+        return "Certificate verified successfully";
+    }
+
+   
+    @GetMapping("/logs/{certificateId}")
+    public List<VerificationLog> getVerificationLogs(
+            @PathVariable Long certificateId) {
+
+        return verificationService.getLogsByCertificateId(certificateId);
+    }
+}
