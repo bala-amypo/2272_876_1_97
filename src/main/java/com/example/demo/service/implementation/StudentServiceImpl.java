@@ -7,11 +7,11 @@ import com.example.demo.repository.StudentRepository;
 import com.example.demo.service.StudentService;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class StudentServiceImpl implements StudentService {
 
-    private final UserRepository repository;
+    private final StudentRepository repository;
 
-    public UserServiceImpl(UserRepository repository) {
+    public StudentServiceImpl(StudentRepository repository) {
         this.repository = repository;
     }
 
