@@ -1,17 +1,25 @@
 package com.example.demo.service.implementation;
 
-import java.util.*;
 import org.springframework.stereotype.Service;
+
+import com.example.demo.entity.User;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.service.UserService;
+
 @Service
-public class UserSeviceImpl extends UserService{
+public class UserServiceImpl implements UserService {
+
     private final UserRepository repository;
-    public UserServiceImpl(UserRepository repository){
-        this.repository=repository;
+
+    public UserServiceImpl(UserRepository repository) {
+        this.repository = repository;
     }
-    public User createData(User use){
-        return repository.save(use);
+
+    public User createData(User user) {
+        return repository.save(user); 
     }
-    public User createdData(User use){
-        return repository.save(use);
+
+    public User logData(User user) {
+        return repository.save(user);
     }
 }

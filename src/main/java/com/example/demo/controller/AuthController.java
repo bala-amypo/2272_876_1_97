@@ -1,6 +1,9 @@
 package com.example.demo.controller;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+
+import com.example.demo.entity.User;
+import com.example.demo.service.UserService;
+
 @RestController
 
 public class AuthController{
@@ -11,12 +14,12 @@ public class AuthController{
 
     
     @PostMapping("/register")
-    public User createData(@RequestBody User use){
+    public User createData(@RequestBody User user){
         return  userservice.createData(use);
     }
     @PostMapping("/login")
-    public User createdData(@RequestBody User use){
-        return  userservice.createdData(use);
+    public User createdData(@RequestBody User user){
+        return  userservice.logData(use);
     }
 
 }
