@@ -2,8 +2,10 @@ package com.example.demo.entity;
 import lombok.Builder;
 
 import jakarta.persistence.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 @Entity
-@Builder
+@Builder.Default
 public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

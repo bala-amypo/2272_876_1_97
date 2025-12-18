@@ -2,6 +2,7 @@ package com.example.demo.entity;
 import lombok.Builder;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 @Entity
 @Builder
 public class Certificate{

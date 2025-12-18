@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 @Entity
 @Builder
 public class Student{
-    @Id;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     @Column(unique=true)

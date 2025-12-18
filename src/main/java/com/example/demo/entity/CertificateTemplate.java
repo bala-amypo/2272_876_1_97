@@ -2,6 +2,9 @@ package com.example.demo.entity;
 import lombok.Builder;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 @Entity
 @Builder
 public class CertificateTemplate{
