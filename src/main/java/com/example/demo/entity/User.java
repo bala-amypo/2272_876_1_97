@@ -13,10 +13,10 @@ public class User{
     private  String password;
     private String role;
      public User() {
-        this.role = "STAFF";   // default role
+        this.role = "STAFF";
     }
 
-    // ✅ Parameterized constructor
+    
     public User(long id, String name, String email, String password, String role) {
         this.id = id;
         this.name = name;
