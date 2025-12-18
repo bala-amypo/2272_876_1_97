@@ -1,18 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.repository;
 
+import org.apache.catalina.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
+public interface UserRepository extends JpaRepository<User,Long> {
 
-
-import java.util.*;
-
-
-
-import com.example.demo.entity.User;
-
-
-
-public interface UserService {
-      User createData(User use);
-      public User createData(User use)
-  
 }
