@@ -1,76 +1,35 @@
-// package com.example.demo.entity;
-// import lombok.Builder;
+package com.example.demo.entity;
 
-// import jakarta.persistence.*;
-// import jakarta.validation.constraints.NotBlank;
-// import jakarta.validation.constraints.Pattern;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.*;
 
-// @Entity
-// @Builder
-// public class CertificateTemplate{
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private long id;
-//     @Column(unique=true)
-//     private String templateName;
-//     @NotBlank
-//     @Pattern(
-//         regexp = "^(http|https)://.*$",
-//         message = "Background URL must be a valid HTTP or HTTPS URL"
-//     )
-//     private String backgroundUrl;
-//     private String fontStyle;
-//     private String signatureName;
-//     public long getId() {
-//         return id;
-//     }
+@Entity
+@Table(name = "certificate_templates")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class CertificateTemplate {
 
-//     public void setId(long id) {
-//         this.id = id;
-//     }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-//     public String getTemplateName() {
-//         return templateName;
-//     }
+    @Column(unique = true, nullable = false)
+    private String templateName;
 
-//     public void setTemplateName(String templateName) {
-//         this.templateName = templateName;
-//     }
+    @NotBlank
+    @Pattern(
+        regexp = "^(http|https)://.*$",
+        message = "Background URL must be a valid HTTP or HTTPS URL"
+    )
+    @Column(nullable = false)
+    private String backgroundUrl;
 
-//     public String getBackgroundUrl() {
-//         return backgroundUrl;
-//     }
+    private String fontStyle;
 
-//     public void setBackgroundUrl(String backgroundUrl) {
-//         this.backgroundUrl = backgroundUrl;
-//     }
-
-//     public String getFontStyle() {
-//         return fontStyle;
-//     }
-
-//     public void setFontStyle(String fontStyle) {
-//         this.fontStyle = fontStyle;
-//     }
-
-//     public String getSignatureName() {
-//         return signatureName;
-//     }
-
-//     public void setSignatureName(String signatureName) {
-//         this.signatureName = signatureName;
-//     }
-     
-//     public CertificateTemplate() {
-//     }
-
-   
-//     public CertificateTemplate(long id, String templateName, String backgroundUrl,
-//                                String fontStyle, String signatureName) {
-//         this.id = id;
-//         this.templateName = templateName;
-//         this.backgroundUrl = backgroundUrl;
-//         this.fontStyle = fontStyle;
-//         this.signatureName = signatureName;
-//     }
-// }
+    private String signatureName;
+}
