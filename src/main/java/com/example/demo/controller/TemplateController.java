@@ -7,7 +7,7 @@ import com.example.demo.entity.CertificateTemplate;
 import com.example.demo.service.TemplateService;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/templates")
 public class CertificateTemplateController{
      private final Templateervice templateservice;
     public StudentController(TemplateService templateservice){
