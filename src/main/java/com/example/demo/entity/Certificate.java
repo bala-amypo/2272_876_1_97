@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 @Entity
 @Builder
 public class Certificate{
-    @id
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
      private long id;
      @ManyToOne
      @JoinColumn(name = "student_id", nullable = false)
