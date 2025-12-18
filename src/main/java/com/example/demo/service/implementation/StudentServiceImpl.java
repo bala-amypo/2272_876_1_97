@@ -1,6 +1,7 @@
 package com.example.demo.service.implementation;
 
 import org.springframework.stereotype.Service;
+import java.util.*;
 
 import com.example.demo.entity.Student;
 import com.example.demo.repository.StudentRepository;
@@ -15,11 +16,11 @@ public class StudentServiceImpl implements StudentService {
         this.repository = repository;
     }
 
-    public User createData(User user) {
-        return repository.save(user); 
+    public Student addData(Student stu) {
+        return repository.save(stu); 
     }
 
-    public User logData(User user) {
-        return repository.save(user);
+    public List<Student> fetchRecord() {
+        return repository.findAll();
     }
 }
