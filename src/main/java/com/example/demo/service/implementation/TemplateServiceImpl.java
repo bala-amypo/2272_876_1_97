@@ -8,19 +8,19 @@ import com.example.demo.repository.CertificateTemplateRepository;
 import com.example.demo.service.TemplateService;
 
 @Service
-public class StudentServiceImpl implements StudentService {
+public class TemplateServiceImpl implements TemplateService {
 
     private final CertificateTemplateRepository repository;
 
-    public StudentServiceImpl(CertificateTemplateRepository repository) {
+    public TemplateServiceImpl(CertificateTemplateRepository repository) {
         this.repository = repository;
     }
 
-    public Student addData(Student stu) {
-        return repository.save(stu); 
+    public CertificateTemplate addTemplate(CertificateTemplate temp) {
+        return repository.save(temp); 
     }
 
-    public List<Student> fetchRecord() {
+    public List<CertificateTemplate> fetchTemplate() {
         return repository.findAll();
     }
 }
