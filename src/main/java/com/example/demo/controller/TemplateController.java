@@ -1,30 +1,30 @@
-package com.example.demo.controller;
+// package com.example.demo.controller;
 
-import java.util.List;
+// import java.util.List;
 
-import org.springframework.web.bind.annotation.*;
+// import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.CertificateTemplate;
-import com.example.demo.service.TemplateService;
+// import com.example.demo.entity.CertificateTemplate;
+// import com.example.demo.service.TemplateService;
 
-@RestController
-@RequestMapping("/templates")
-public class TemplateController {
+// @RestController
+// @RequestMapping("/templates")
+// public class TemplateController {
 
-    private final TemplateService templateService;
+//     private final TemplateService templateService;
 
-    public TemplateController(TemplateService templateService) {
-        this.templateService = templateService;
-    }
+//     public TemplateController(TemplateService templateService) {
+//         this.templateService = templateService;
+//     }
 
-    @PostMapping("/addtemplate")
-    public CertificateTemplate addTemplate(
-            @RequestBody CertificateTemplate temp) {
-        return templateService.addTemplate(temp);
-    }
+//     @PostMapping("/addtemplate")
+//     public CertificateTemplate addTemplate(
+//             @RequestBody CertificateTemplate temp) {
+//         return templateService.addTemplate(temp);
+//     }
 
-    @GetMapping("/fetchtemplate")
-    public List<CertificateTemplate> fetchTemplate() {
-        return templateService.fetchTemplate();
-    }
-}
+//     @GetMapping("/fetchtemplate")
+//     public List<CertificateTemplate> fetchTemplate() {
+//         return templateService.fetchTemplate();
+//     }
+// }
