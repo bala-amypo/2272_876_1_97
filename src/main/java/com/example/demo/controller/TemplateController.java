@@ -1,5 +1,5 @@
 package com.example.demo.controller;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +16,8 @@ public class CertificateTemplateController{
 
     
     @PostMapping("/addtemplate")
-    public Student addTemplate(@RequestBody Student stu){
-        return  Templateservice.addTemplate(stu);
+    public Student addTemplate(@RequestBody CertificateTemplate temp){
+        return  Templateservice.addTemplate(temp);
     }
    @GetMapping("/fetchtemplate")
     public List<CertificateTemplate> fetchTemplate(){
