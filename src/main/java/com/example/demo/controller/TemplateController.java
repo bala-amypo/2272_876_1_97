@@ -3,25 +3,25 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.Student;
-import com.example.demo.service.StudentService;
+import com.example.demo.entity.CertificateTemplate;
+import com.example.demo.service.TemplateService;
 
 @RestController
 @RequestMapping("/students")
-public class StudentController{
-     private final StudentService studentservice;
-    public StudentController(StudentService studentservice){
-        this.studentservice=studentservice;
+public class CertificateTemplateController{
+     private final Templateervice templateservice;
+    public StudentController(TemplateService templateservice){
+        this.Templateservice=Templateservice;
     }
 
     
-    @PostMapping("/add")
+    @PostMapping("/addtemplate")
     public Student addTemplate(@RequestBody Student stu){
-        return  studentservice.addData(stu);
+        return  Templateservice.addTemplate(stu);
     }
-   @GetMapping("/fetch")
-    public List<> fetchRecord(){
-      return studentservice.fetchRecord();
+   @GetMapping("/fetchtemplate")
+    public List<CertificateTemplate> fetchTemplate(){
+      return Templateservice.fetchTemplate();
 
 
 }
