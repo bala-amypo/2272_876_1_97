@@ -7,5 +7,6 @@ import com.example.demo.entity.Certificate;
 @Repository
 
 public interface CertificateRepository extends JpaRepository<Certificate,Long>{
+     Optional<Certificate> findByVerificationCode(String verificationCode);
 
 }
