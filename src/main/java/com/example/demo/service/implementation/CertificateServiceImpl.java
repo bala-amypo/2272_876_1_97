@@ -22,19 +22,28 @@ public class CertificateServiceImpl implements CertificateService {
     private final StudentRepository studentRepository;
     private final CertificateTemplateRepository templateRepository;
 
-    @Override
-    public Certificate generateCertificate(Long studentId, Long templateId) {
 
-        Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+@Override
+public Certificate generateCertificate(Long studentId, Long templateId) {
 
-        CertificateTemplate template = templateRepository.findById(templateId)
-                .orElseThrow(() -> new RuntimeException("Template not found"));
+    Student student = studentRepository.findById(studentId)
+            .orElseThrow(() -> new RuntimeException("Student not found"));
 
-        Certificate certificate = new Certificate();
-certificate .setStudent(student);
-certificate .setTemplate(template);
-certificate .setVerificationCode(code);
+    CertificateTemplate template = templateRepository.findById(templateId)
+            .orElseThrow(() -> new RuntimeException("Template not found"));
+
+   
+    String code = UUID.randomUUID().toString();
+
+    Certificate certificate = Certificate.builder()
+            .student(student)
+            .template(template)
+            .verificationCode(code)
+            .build();
+
+    return certificateRepository.save(certificate);
+}
+
 
 
         return certificateRepository.save(certificate);
