@@ -14,22 +14,8 @@ public class Certificate{
      private CertificateTemplate template;
     private LocalDate issuedDate;
      private String qrcodeUrl;
-     @Column(unique=true)
+    @Column(unique = true, nullable = false, updatable = false)
      private String verificationCode;
-     public Certificate() {
-    }
-
-   
-    public Certificate(long id, Student student, CertificateTemplate template,
-                       LocalDate issuedDate, String qrcodeUrl, String verificationCode) {
-        this.id = id;
-        this.student = student;
-        this.template = template;
-        this.issuedDate = issuedDate;
-        this.qrcodeUrl = qrcodeUrl;
-        this.verificationCode = verificationCode;
-    }
-
     
     public long getId() {
         return id;
@@ -78,5 +64,21 @@ public class Certificate{
     public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
     }
+
+     public Certificate() {
+    }
+
+   
+    public Certificate(long id, Student student, CertificateTemplate template,
+                       LocalDate issuedDate, String qrcodeUrl, String verificationCode) {
+        this.id = id;
+        this.student = student;
+        this.template = template;
+        this.issuedDate = issuedDate;
+        this.qrcodeUrl = qrcodeUrl;
+        this.verificationCode = verificationCode;
+    }
+
+    
 }
 
