@@ -31,12 +31,11 @@ public class CertificateServiceImpl implements CertificateService {
         CertificateTemplate template = templateRepository.findById(templateId)
                 .orElseThrow(() -> new RuntimeException("Template not found"));
 
-        Certificate certificate = Certificate.builder()
-                .student(student)
-                .template(template)
-                .issuedDate(LocalDate.now())
-                .verificationCode(UUID.randomUUID().toString())
-                .build();
+        Certificate certificate = new Certificate();
+certificate .setStudent(student);
+certificate .setTemplate(template);
+certificate .setVerificationCode(code);
+
 
         return certificateRepository.save(certificate);
     }
