@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.User;
-import com.example.demo.service.UserService;
+import com.example.demo.entity.Student;
+import com.example.demo.service.StudentService;
 
 @RestController
 @RequestMapping("/students")
@@ -17,9 +17,9 @@ public class StudentController{
     public Student createData(@RequestBody Student stu){
         return  userservice.createData(stu);
     }
-    @GetMapping("/addalldata")
-    public Student getData(@RequestBody User user){
-        return  userservice.logData(use);
+   @GetMapping("/fetch")
+    public List<Student> fetchRecord(){
+        return userservice.fetchRecord();
     }
 
 }
