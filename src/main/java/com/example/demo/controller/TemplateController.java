@@ -1,5 +1,6 @@
 package com.example.demo.controller;
-import java.util.*;
+
+import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -8,22 +9,23 @@ import com.example.demo.service.TemplateService;
 
 @RestController
 @RequestMapping("/templates")
-public class CertificateTemplateController{
-     private final Templatservice templateservice;
-    public TemplateController(TemplateService templateservice){
-        this.templateservice=templateservice;
+public class CertificateTemplateController {
+
+    private final TemplateService templateService;
+
+    /
+    public CertificateTemplateController(TemplateService templateService) {
+        this.templateService = templateService;
     }
 
-    
     @PostMapping("/addtemplate")
-    public Student addTemplate(@RequestBody CertificateTemplate temp){
-        return  Templateservice.addTemplate(temp);
+    public CertificateTemplate addTemplate(
+            @RequestBody CertificateTemplate temp) {
+        return templateService.addTemplate(temp);
     }
-   @GetMapping("/fetchtemplate")
-    public List<CertificateTemplate> fetchTemplate(){
-      return Templateservice.fetchTemplate();
 
-
-}
-
+    @GetMapping("/fetchtemplate")
+    public List<CertificateTemplate> fetchTemplate() {
+        return templateService.fetchTemplate();
+    }
 }
