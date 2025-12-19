@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "certificates")
 @Getter
@@ -18,10 +20,10 @@ public class Certificate {
 
     private String code;
 
-
     private String verificationCode;
 
     @ManyToOne
     @JoinColumn(name = "student_id")
+    @JsonIgnoreProperties({"name", "email", "rollNumber"})
     private Student student;
 }
