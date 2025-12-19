@@ -17,7 +17,8 @@ public class CertificateController {
 
    
     @PostMapping("/generate/{studentId}/{templateId}")
-    public Certificate generateCertificate(@PathVariable Long studentId,
+    public Certificate generateCertificate(
+            @PathVariable Long studentId,
             @PathVariable Long templateId) {
 
         return certificateService.generateCertificate(studentId, templateId);
@@ -25,14 +26,16 @@ public class CertificateController {
 
  
     @GetMapping("/{certificateId}")
-    public Certificate getCertificate(@PathVariable Long certificateId) {
+    public Certificate getCertificate(
+            @PathVariable Long certificateId) {
 
         return certificateService.getCertificateById(certificateId);
     }
 `
     
     @GetMapping("/verify/code/{verificationCode}")
-    public Certificate findByByVerificationCode(@PathVariable String verificationCode) {
+    public Certificate getCertificateByCode(
+            @PathVariable String verificationCode) {
 
         return certificateService.findByVerificationCode(verificationCode);
     }
