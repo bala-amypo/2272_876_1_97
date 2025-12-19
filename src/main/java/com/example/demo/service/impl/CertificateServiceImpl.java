@@ -26,6 +26,7 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public Certificate addCertificate(Certificate certificate) {
 
+        certificate.setId(null);
         Long studentId = certificate.getStudent().getId();
 
         Student managedStudent = studentRepository.findById(studentId)
