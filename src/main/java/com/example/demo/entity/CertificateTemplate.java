@@ -1,30 +1,27 @@
-// package com.example.demo.entity;
+package com.example.demo.entity;
 
-// import jakarta.persistence.*;
-// import lombok.*;
-// import java.util.List;
+import jakarta.persistence.*;
+import lombok.*;
 
-// @Entity
-// @Table(name = "templates")
-// @Getter
-// @Setter
-// @NoArgsConstructor
-// @AllArgsConstructor
-// @Builder
-// public class CertificateTemplate {
+@Entity
+@Table(name = "certificate_templates")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class CertificateTemplate {
 
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-//     @Column(unique = true, nullable = false)
-//     private String templateName;
+    @Column(unique = true, nullable = false)
+    private String templateName;
 
-//     private String description;
+    private String backgroundUrl;
 
-//     @Lob
-//     private String content;
+    private String fontStyle;
 
-//     @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
-//     private List<Certificate> certificates;
-// }
+    private String signatureName;
+}
