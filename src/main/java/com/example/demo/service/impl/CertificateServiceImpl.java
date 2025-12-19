@@ -76,7 +76,7 @@ public class CertificateServiceImpl implements CertificateService {
     public List<Certificate> findByStudentId(Long studentId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
-        return certificateRepository.findByStudentId(student.getId());
+        return certificateRepository.findByStudent_Id(student.getId());
     }
 
     // Helper method to generate QR code in Base64
