@@ -1,7 +1,9 @@
 package com.example.demo.service.implementation;
 
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -33,31 +35,49 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public Certificate generateCertificate(Long studentId, Long templateId) {
 
+        
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
 
+        
         CertificateTemplate template = templateRepository.findById(templateId)
                 .orElseThrow(() -> new RuntimeException("Template not found"));
 
-        String code = UUID.randomUUID().toString();
+       
+        String verificationCode = "VC-" + UUID.randomUUID();
+
+      
+        String qrCodeBase64 = "data:image/png;base64," +
+                Base64.getEncoder().encodeToString(verificationCode.getBytes());
 
         Certificate certificate = new Certificate();
         certificate.setStudent(student);
         certificate.setTemplate(template);
-        certificate.setVerificationCode(code);
+        certificate.setIssuedDate(LocalDate.now());
+        certificate.setVerificationCode(verificationCode);
+        certificate.setQrCode(qrCodeBase64);
 
         return certificateRepository.save(certificate);
     }
 
     @Override
-    public Certificate getCertificateById(Long certificateId) {
+    public Certificate getCertificate(Long certificateId) {
         return certificateRepository.findById(certificateId)
                 .orElseThrow(() -> new RuntimeException("Certificate not found"));
     }
 
     @Override
-    public Certificate getCertificateByVerificationCode(String verificationCode) {
-        return certificateRepository.findByVerificationCode(verificationCode)
-                .orElseThrow(() -> new RuntimeException("Invalid verification code"));
+    public Certificate findByVerificationCode(String code) {
+        return certificateRepository.findByVerificationCode(code)
+                .orElseThrow(() -> new RuntimeException("Certificate not found"));
+    }
+
+    @Override
+    public List<Certificate> findByStudentId(Long studentId) {
+
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        return certificateRepository.findByStudent(student);
     }
 }
