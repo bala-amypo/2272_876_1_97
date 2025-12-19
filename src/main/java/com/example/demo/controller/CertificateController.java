@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.entity.Certificate;
 import com.example.demo.service.CertificateService;
 
@@ -17,34 +16,24 @@ public class CertificateController {
         this.service = service;
     }
 
-    // Create certificate
-    @PostMapping
-    public Certificate addCertificate(@RequestBody Certificate certificate) {
-        return service.addCertificate(certificate);
+    @PostMapping("/generate/{studentId}/{templateId}")
+    public Certificate generateCertificate(@PathVariable Long studentId,
+                                           @PathVariable Long templateId) {
+        return service.generateCertificate(studentId, templateId);
     }
 
-    // Get certificate by code
-    @GetMapping("/code/{code}")
-    public Certificate getCertificateByCode(@PathVariable String code) {
-        return service.getCertificateByCode(code);
+    @GetMapping("/{id}")
+    public Certificate getCertificate(@PathVariable Long id) {
+        return service.getCertificate(id);
     }
 
-    // Get certificates by student
+    @GetMapping("/verify/code/{verificationCode}")
+    public Certificate findByVerificationCode(@PathVariable String verificationCode) {
+        return service.findByVerificationCode(verificationCode);
+    }
+
     @GetMapping("/student/{studentId}")
-    public List<Certificate> getCertificatesByStudentId(
-            @PathVariable Long studentId) {
-        return service.getCertificatesByStudentId(studentId);
-    }
-
-    // Get all certificates
-    @GetMapping
-    public List<Certificate> getAllCertificates() {
-        return service.getAllCertificates();
-    }
-
-    // Delete certificate
-    @DeleteMapping("/{id}")
-    public void deleteCertificate(@PathVariable Long id) {
-        service.deleteCertificate(id);
+    public List<Certificate> findByStudentId(@PathVariable Long studentId) {
+        return service.findByStudentId(studentId);
     }
 }

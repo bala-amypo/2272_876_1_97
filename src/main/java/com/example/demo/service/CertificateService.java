@@ -1,17 +1,11 @@
 package com.example.demo.service;
 
-import java.util.List;
 import com.example.demo.entity.Certificate;
+import java.util.List;
 
 public interface CertificateService {
-
-    Certificate addCertificate(Certificate certificate);
-
-    Certificate getCertificateByCode(String code);
-
-    List<Certificate> getCertificatesByStudentId(Long studentId);
-
-    List<Certificate> getAllCertificates();
-
-    void deleteCertificate(Long id);
+    Certificate generateCertificate(Long studentId, Long templateId);
+    Certificate getCertificate(Long certificateId);
+    Certificate findByVerificationCode(String code);
+    List<Certificate> findByStudentId(Long studentId);
 }
