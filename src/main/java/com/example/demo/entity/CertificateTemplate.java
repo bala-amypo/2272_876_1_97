@@ -32,4 +32,6 @@ public class CertificateTemplate {
     private String fontStyle;
 
     private String signatureName;
+     @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
+    private List<Certificate> certificates;
 }
