@@ -18,12 +18,12 @@ public class VerificationLog {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "certificate_id")
+    @JoinColumn(name = "certificate_id", nullable = false)
     private Certificate certificate;
 
     private LocalDateTime verifiedAt;
 
-    private String status; // SUCCESS or FAILED
+    private String status; // "SUCCESS" or "FAILED"
 
     private String ipAddress;
 }

@@ -17,19 +17,14 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student addStudent(Student student) {
-
-        if (student.getEmail() == null || student.getRollNumber() == null || student.getName() == null) {
-            throw new RuntimeException("Student fields cannot be null");
+        // Check for duplicate email
+        if (repository.findByEmail(student.getEmail()).isPresent()) {
+            throw new RuntimeException("Student email exists");
         }
-
-        repository.findByEmail(student.getEmail()).ifPresent(s -> {
-            throw new RuntimeException("Student email exists");
-        });
-
-        repository.findByRollNumber(student.getRollNumber()).ifPresent(s -> {
-            throw new RuntimeException("Student email exists");
-        });
-
+        // Check for duplicate roll number
+        if (repository.findByRollNumber(student.getRollNumber()).isPresent()) {
+            throw new RuntimeException("Student roll number exists");
+        }
         return repository.save(student);
     }
 

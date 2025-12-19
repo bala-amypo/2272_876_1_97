@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface CertificateTemplateRepository extends JpaRepository<CertificateTemplate, Long> {
 
     Optional<CertificateTemplate> findByTemplateName(String templateName);
+
 }

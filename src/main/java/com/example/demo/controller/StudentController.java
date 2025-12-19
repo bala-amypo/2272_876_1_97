@@ -9,24 +9,24 @@ import com.example.demo.service.StudentService;
 @RequestMapping("/students")
 public class StudentController {
 
-    private final StudentService studentService;
+    private final StudentService service;
 
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
+    public StudentController(StudentService service) {
+        this.service = service;
     }
 
     @PostMapping
     public Student addStudent(@RequestBody Student student) {
-        return studentService.addStudent(student);
+        return service.addStudent(student);
     }
 
     @GetMapping
     public List<Student> getAllStudents() {
-        return studentService.getAllStudents();
+        return service.getAllStudents();
     }
 
     @GetMapping("/{id}")
     public Student getStudentById(@PathVariable Long id) {
-        return studentService.findById(id);
+        return service.findById(id);
     }
 }

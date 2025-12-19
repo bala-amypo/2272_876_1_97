@@ -1,53 +1,44 @@
 package com.example.demo.service.impl;
 
 import org.springframework.stereotype.Service;
+import com.example.demo.service.VerificationService;
+import com.example.demo.entity.VerificationLog;
+import com.example.demo.entity.Certificate;
+import com.example.demo.repository.VerificationLogRepository;
+import com.example.demo.repository.CertificateRepository;
+
 import java.time.LocalDateTime;
 import java.util.List;
-
-import com.example.demo.entity.Certificate;
-import com.example.demo.entity.VerificationLog;
-import com.example.demo.repository.CertificateRepository;
-import com.example.demo.repository.VerificationLogRepository;
-import com.example.demo.service.VerificationService;
 
 @Service
 public class VerificationServiceImpl implements VerificationService {
 
-    private final CertificateRepository certificateRepository;
     private final VerificationLogRepository logRepository;
+    private final CertificateRepository certificateRepository;
 
-    public VerificationServiceImpl(
-            CertificateRepository certificateRepository,
-            VerificationLogRepository logRepository) {
-        this.certificateRepository = certificateRepository;
+    public VerificationServiceImpl(VerificationLogRepository logRepository,
+                                   CertificateRepository certificateRepository) {
         this.logRepository = logRepository;
+        this.certificateRepository = certificateRepository;
     }
 
     @Override
     public VerificationLog verifyCertificate(String verificationCode, String clientIp) {
-
         Certificate certificate = certificateRepository.findByVerificationCode(verificationCode)
-                .orElse(null);
+                .orElseThrow(() -> new RuntimeException("Certificate not found"));
 
         VerificationLog log = VerificationLog.builder()
                 .certificate(certificate)
                 .verifiedAt(LocalDateTime.now())
-                .status(certificate != null ? "SUCCESS" : "FAILED")
+                .status("SUCCESS")
                 .ipAddress(clientIp)
                 .build();
 
-        logRepository.save(log);
-
-        if (certificate == null) {
-            throw new RuntimeException("Certificate not found");
-        }
-
-        return log;
+        return logRepository.save(log);
     }
 
     @Override
     public List<VerificationLog> getLogsByCertificate(Long certificateId) {
-
         Certificate certificate = certificateRepository.findById(certificateId)
                 .orElseThrow(() -> new RuntimeException("Certificate not found"));
 

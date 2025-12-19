@@ -11,8 +11,16 @@ import com.example.demo.service.CertificateService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.Base64;
+import java.io.ByteArrayOutputStream;
+import java.awt.image.BufferedImage;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
 
 @Service
 public class CertificateServiceImpl implements CertificateService {
@@ -21,9 +29,10 @@ public class CertificateServiceImpl implements CertificateService {
     private final StudentRepository studentRepository;
     private final CertificateTemplateRepository templateRepository;
 
-    public CertificateServiceImpl(CertificateRepository certificateRepository,
-                                  StudentRepository studentRepository,
-                                  CertificateTemplateRepository templateRepository) {
+    public CertificateServiceImpl(
+            CertificateRepository certificateRepository,
+            StudentRepository studentRepository,
+            CertificateTemplateRepository templateRepository) {
         this.certificateRepository = certificateRepository;
         this.studentRepository = studentRepository;
         this.templateRepository = templateRepository;
@@ -31,25 +40,21 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Override
     public Certificate generateCertificate(Long studentId, Long templateId) {
-
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
-
         CertificateTemplate template = templateRepository.findById(templateId)
                 .orElseThrow(() -> new RuntimeException("Template not found"));
 
-        // Create unique verification code starting with VC-
-        String verificationCode = "VC-" + UUID.randomUUID().toString().substring(0, 8);
+        String verificationCode = "VC-" + UUID.randomUUID().toString();
 
-        // For demonstration: simple QR code placeholder (Base64 string)
-        String qrCodeBase64 = "data:image/png;base64," + Base64.getEncoder().encodeToString(verificationCode.getBytes());
+        String qrCodeUrl = generateQRCodeBase64(verificationCode);
 
         Certificate certificate = Certificate.builder()
                 .student(student)
                 .template(template)
-                .issuedDate(LocalDate.now())
                 .verificationCode(verificationCode)
-                .qrCodeUrl(qrCodeBase64)
+                .qrCodeUrl(qrCodeUrl)
+                .issuedDate(LocalDate.now())
                 .build();
 
         return certificateRepository.save(certificate);
@@ -71,7 +76,22 @@ public class CertificateServiceImpl implements CertificateService {
     public List<Certificate> findByStudentId(Long studentId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
+        return certificateRepository.findByStudentId(student.getId());
+    }
 
-        return certificateRepository.findByStudent(student);
+    // Helper method to generate QR code in Base64
+    private String generateQRCodeBase64(String text) {
+        try {
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, 250, 250);
+            BufferedImage image = MatrixToImageWriter.toBufferedImage(bitMatrix);
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            javax.imageio.ImageIO.write(image, "png", baos);
+
+            return "data:image/png;base64," + Base64.getEncoder().encodeToString(baos.toByteArray());
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate QR code", e);
+        }
     }
 }
