@@ -17,15 +17,6 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public CertificateTemplate addTemplate(CertificateTemplate template) {
-
-        if (template.getTemplateName() == null || template.getBackgroundUrl() == null) {
-            throw new RuntimeException("Template fields cannot be null");
-        }
-
-        repository.findByTemplateName(template.getTemplateName()).ifPresent(t -> {
-            throw new RuntimeException("Template name exists");
-        });
-
         return repository.save(template);
     }
 
@@ -36,7 +27,7 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public CertificateTemplate findById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Template not found"));
+        Optional<CertificateTemplate> optional = repository.findById(id);
+        return optional.orElse(null);  
     }
 }
