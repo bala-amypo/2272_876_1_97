@@ -16,12 +16,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createData(User user) {
+    public User register(User user) {
         return repository.save(user);
     }
 
     @Override
-    public User logData(User user) {
+    public User findByEmail(User user) {
         return repository.save(user);
     }
 }
