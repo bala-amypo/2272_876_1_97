@@ -2,7 +2,6 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "certificates")
@@ -17,16 +16,12 @@ public class Certificate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String code;
+
+
+    private String verificationCode;
+
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
-
-    @ManyToOne
-    @JoinColumn(name = "template_id")
-    private CertificateTemplate template;
-
-    @Column(unique = true)
-    private String code;
-
-    private LocalDate issueDate;
 }
