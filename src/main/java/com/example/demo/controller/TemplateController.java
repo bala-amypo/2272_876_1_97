@@ -17,13 +17,13 @@ public class TemplateController {
         this.templateService = templateService;
     }
 
-    @PostMapping("/addtemplate")
-    public CertificateTemplate getTemplate(
-            @RequestBody CertificateTemplate temp) {
-        return templateService.getTemplate(temp);
+    @PostMapping
+    public CertificateTemplate addTemplate(@RequestBody CertificateTemplate template) {
+        return templateService.addTemplate(template);
     }
 
-    @GetMapping("/fetchtemplate")
+    
+    @GetMapping
     public List<CertificateTemplate> getAllTemplates() {
         return templateService.getAllTemplates();
     }
