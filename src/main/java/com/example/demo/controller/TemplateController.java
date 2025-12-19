@@ -18,13 +18,13 @@ public class TemplateController {
     }
 
     @PostMapping("/addtemplate")
-    public CertificateTemplate addTemplate(
+    public CertificateTemplate getTemplate(
             @RequestBody CertificateTemplate temp) {
         return templateService.addTemplate(temp);
     }
 
     @GetMapping("/fetchtemplate")
-    public List<CertificateTemplate> fetchTemplate() {
+    public List<CertificateTemplate> getAllTemplate() {
         return templateService.fetchTemplate();
     }
 }

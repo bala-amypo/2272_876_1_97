@@ -14,6 +14,6 @@ import com.example.demo.entity.Student;
 public interface StudentService {
   
   
-  Student addData(Student stu);
-  List<Student> fetchRecord();
+  Student addStudents(Student stu);
+  List<Student> getAllStudents();
 }

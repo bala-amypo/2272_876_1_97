@@ -16,11 +16,11 @@ public class StudentServiceImpl implements StudentService {
         this.repository = repository;
     }
 
-    public Student addData(Student stu) {
+    public Student addStudents(Student stu) {
         return repository.save(stu); 
     }
 
-    public List<Student> fetchRecord() {
+    public List<Student> getAllStudents() {
         return repository.findAll();
     }
 }
