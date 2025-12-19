@@ -7,6 +7,6 @@
 //  import com.example.demo.entity.User;
 
 // public interface UserService {
-//       User createData(User use);
-//        User logData(User use);
+//       User register(User user);
+//        User findByEmail(User user);
 // }
