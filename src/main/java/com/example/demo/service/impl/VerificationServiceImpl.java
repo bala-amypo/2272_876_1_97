@@ -31,11 +31,10 @@ public class VerificationServiceImpl implements VerificationService {
         Optional<Certificate> certificateOpt =
                 certificateRepository.findByVerificationCode(verificationCode);
 
-        VerificationLog log = VerificationLog.builder()
-                .verificationCode(verificationCode)
-                .ipAddress(clientIp)
-                .verifiedAt(LocalDateTime.now())
-                .build();
+        VerificationLog log = new VerificationLog();
+        log.setVerificationCode(verificationCode);
+        log.setIpAddress(clientIp);
+        log.setVerifiedAt(LocalDateTime.now());
 
         if (certificateOpt.isPresent()) {
             log.setCertificate(certificateOpt.get());
