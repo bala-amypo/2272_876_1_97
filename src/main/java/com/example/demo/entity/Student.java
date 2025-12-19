@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "students")
 @Getter
@@ -24,4 +26,7 @@ public class Student {
 
     @Column(unique = true, nullable = false)
     private String rollNumber;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<Certificate> certificates;
 }
