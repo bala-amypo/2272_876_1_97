@@ -18,18 +18,15 @@ public class Certificate {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(name = "student_id")
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "template_id", nullable = false)
+    @JoinColumn(name = "template_id")
     private CertificateTemplate template;
 
-    private LocalDate issuedDate;
+    @Column(unique = true)
+    private String code;
 
-    @Column(unique = true, nullable = false)
-    private String verificationCode;
-
-    @Column(length = 1000)
-    private String qrCode;
+    private LocalDate issueDate;
 }
