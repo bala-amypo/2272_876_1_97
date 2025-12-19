@@ -4,15 +4,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import com.example.demo.entity.CertificateTemplate;
-import com.example.demo.service.CertificateTemplateService;
+import com.example.demo.service.TemplateService;
 
 @RestController
 @RequestMapping("/templates")
-public class CertificateTemplateController {
+public class TemplateController {
 
-    private final CertificateTemplateService service;
+    private final TemplateService service;
 
-    public CertificateTemplateController(CertificateTemplateService service) {
+    public TemplateController(TemplateService service) {
         this.service = service;
     }
 
