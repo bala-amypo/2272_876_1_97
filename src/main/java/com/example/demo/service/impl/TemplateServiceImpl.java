@@ -6,14 +6,14 @@ import java.util.Optional;
 
 import com.example.demo.entity.CertificateTemplate;
 import com.example.demo.repository.CertificateTemplateRepository;
-import com.example.demo.service.CertificateTemplateService;
+import com.example.demo.service.TemplateService;
 
 @Service
-public class CertificateTemplateServiceImpl implements CertificateTemplateService {
+public class TemplateServiceImpl implements TemplateService {
 
     private final CertificateTemplateRepository repository;
 
-    public CertificateTemplateServiceImpl(CertificateTemplateRepository repository) {
+    public TemplateServiceImpl(CertificateTemplateRepository repository) {
         this.repository = repository;
     }
 
@@ -30,6 +30,6 @@ public class CertificateTemplateServiceImpl implements CertificateTemplateServic
     @Override
     public CertificateTemplate findById(Long id) {
         Optional<CertificateTemplate> optional = repository.findById(id);
-        return optional.orElse(null);  // return null if not found, can throw exception if preferred
+        return optional.orElse(null);  
     }
 }
