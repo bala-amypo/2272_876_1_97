@@ -3,10 +3,14 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
-@Table(name = "students")
+@Table(
+    name = "students",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email"),
+        @UniqueConstraint(columnNames = "rollNumber")
+    }
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,6 +23,8 @@ public class Student {
     private Long id;
 
     private String name;
+
     private String email;
+
     private String rollNumber;
 }

@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
+
 import com.example.demo.entity.Student;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.service.StudentService;
@@ -17,11 +18,26 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student addStudent(Student student) {
+
+        repository.findByEmail(student.getEmail()).ifPresent(s -> {
+            throw new RuntimeException("Student email exists");
+        });
+
+        repository.findByRollNumber(student.getRollNumber()).ifPresent(s -> {
+            throw new RuntimeException("Student email exists");
+        });
+
         return repository.save(student);
     }
 
     @Override
     public List<Student> getAllStudents() {
         return repository.findAll();
+    }
+
+    @Override
+    public Student findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
     }
 }
