@@ -1,10 +1,9 @@
 package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 import com.example.demo.entity.VerificationLog;
 import com.example.demo.service.VerificationService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/verify")
@@ -17,9 +16,14 @@ public class VerificationController {
     }
 
     @PostMapping("/{verificationCode}")
-    public VerificationLog verifyCertificate(@PathVariable String verificationCode,
-                                             @RequestHeader("X-Forwarded-For") String clientIp) {
-        // fallback to remoteAddr if header missing could be added in real use
+    public VerificationLog verifyCertificate(
+            @PathVariable String verificationCode,
+            @RequestHeader(value = "X-Forwarded-For", required = false) String clientIp) {
+
+        if (clientIp == null || clientIp.isBlank()) {
+            clientIp = "UNKNOWN";
+        }
+
         return service.verifyCertificate(verificationCode, clientIp);
     }
 
