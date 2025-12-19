@@ -29,6 +29,5 @@ public class Student {
     @Column(unique = true, nullable = false)
     private String rollNumber;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    private List<Certificate> certificates;
+
 }
