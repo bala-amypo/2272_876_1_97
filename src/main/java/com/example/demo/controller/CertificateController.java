@@ -1,10 +1,11 @@
 package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 import com.example.demo.entity.Certificate;
 import com.example.demo.service.CertificateService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/certificates")
@@ -16,25 +17,34 @@ public class CertificateController {
         this.service = service;
     }
 
-    @PostMapping("/generate/{studentId}/{templateId}")
-    public Certificate generateCertificate(
-            @PathVariable Long studentId,
-            @PathVariable Long templateId) {
-        return service.generateCertificate(studentId, templateId);
+    // Create certificate
+    @PostMapping
+    public Certificate addCertificate(@RequestBody Certificate certificate) {
+        return service.addCertificate(certificate);
     }
 
-    @GetMapping("/{id}")
-    public Certificate getCertificate(@PathVariable Long id) {
-        return service.getCertificate(id);
+    // Get certificate by code
+    @GetMapping("/code/{code}")
+    public Certificate getCertificateByCode(@PathVariable String code) {
+        return service.getCertificateByCode(code);
     }
 
-    @GetMapping("/verify/{code}")
-    public Certificate findByVerificationCode(@PathVariable String code) {
-        return service.findByVerificationCode(code);
-    }
-
+    // Get certificates by student
     @GetMapping("/student/{studentId}")
-    public List<Certificate> findByStudentId(@PathVariable Long studentId) {
-        return service.findByStudentId(studentId);
+    public List<Certificate> getCertificatesByStudentId(
+            @PathVariable Long studentId) {
+        return service.getCertificatesByStudentId(studentId);
+    }
+
+    // Get all certificates
+    @GetMapping
+    public List<Certificate> getAllCertificates() {
+        return service.getAllCertificates();
+    }
+
+    // Delete certificate
+    @DeleteMapping("/{id}")
+    public void deleteCertificate(@PathVariable Long id) {
+        service.deleteCertificate(id);
     }
 }

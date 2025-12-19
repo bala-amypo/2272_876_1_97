@@ -5,11 +5,13 @@ import com.example.demo.entity.Certificate;
 
 public interface CertificateService {
 
-    Certificate generateCertificate(Long studentId, Long templateId);
+    Certificate addCertificate(Certificate certificate);
 
-    Certificate getCertificate(Long certificateId);
+    Certificate getCertificateByCode(String code);
 
-    Certificate findByVerificationCode(String code);
+    List<Certificate> getCertificatesByStudentId(Long studentId);
 
-    List<Certificate> findByStudentId(Long studentId);
+    List<Certificate> getAllCertificates();
+
+    void deleteCertificate(Long id);
 }
