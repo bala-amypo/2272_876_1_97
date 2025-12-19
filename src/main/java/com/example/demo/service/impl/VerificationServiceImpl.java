@@ -25,16 +25,24 @@ public class VerificationServiceImpl implements VerificationService {
     @Override
     public VerificationLog verifyCertificate(String verificationCode, String clientIp) {
         Certificate certificate = certificateRepository.findByVerificationCode(verificationCode)
-                .orElseThrow(() -> new RuntimeException("Certificate not found"));
+                .orElse(null);
 
         VerificationLog log = VerificationLog.builder()
                 .certificate(certificate)
                 .verifiedAt(LocalDateTime.now())
-                .status("SUCCESS")
                 .ipAddress(clientIp)
+                .status(certificate != null ? "SUCCESS" : "FAILED")
                 .build();
 
-        return logRepository.save(log);
+        // Save the log regardless of success or failure
+        logRepository.save(log);
+
+        if (certificate == null) {
+            // Optional: throw an exception for higher layers if needed
+            throw new RuntimeException("Certificate not found");
+        }
+
+        return log;
     }
 
     @Override
