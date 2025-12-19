@@ -21,9 +21,13 @@ public class VerificationLog {
     @JoinColumn(name = "certificate_id", nullable = false)
     private Certificate certificate;
 
+    @Column(nullable = false)
+    private String status;
+
+    @Column(nullable = false)
     private LocalDateTime verifiedAt;
 
-    private String status; // "SUCCESS" or "FAILED"
-
+    @Column(nullable = false)
     private String ipAddress;
+
 }
