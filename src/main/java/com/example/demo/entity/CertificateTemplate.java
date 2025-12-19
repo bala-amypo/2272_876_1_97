@@ -23,4 +23,6 @@ public class CertificateTemplate {
 
     @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
     private List<Certificate> certificates;
+
+    private String backgroundUrl;
 }
