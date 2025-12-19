@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+
 import com.example.demo.entity.Student;
 import com.example.demo.service.StudentService;
 
@@ -15,14 +16,12 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    // Endpoint to add a new student
-    @PostMapping("/add")
+    @PostMapping
     public Student addStudent(@RequestBody Student student) {
         return studentService.addStudent(student);
     }
 
-    // Endpoint to get all students
-    @GetMapping("/all")
+    @GetMapping
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();
     }
