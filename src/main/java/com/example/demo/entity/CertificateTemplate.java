@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
-import.java.util.*;
+import java.util.*;
 
 @Entity
 @Table(name = "certificate_templates")
