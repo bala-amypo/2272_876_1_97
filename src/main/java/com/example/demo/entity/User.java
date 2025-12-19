@@ -1,28 +1,32 @@
-// package com.example.demo.entity;
+package com.example.demo.entity;
 
-// import jakarta.persistence.*;
-// import lombok.*;
+import jakarta.persistence.*;
+import lombok.*;
 
-// @Entity
-// @Table(name="users")
-// @Getter
-// @Setter
-// @NoArgsConstructor
-// @AllArgsConstructor
-// @Builder
-// public class User {
+@Entity
+@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class User {
 
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-//     private String name;
+    // Full name of admin or staff
+    private String name;
 
-//     @Column(unique = true, nullable = false)
-//     private String email;
+    // Unique login email
+    @Column(unique = true, nullable = false)
+    private String email;
 
-//     @Column(nullable = false)
-//     private String password;
 
-//     private String role = "STAFF";
-// }
+    @Column(nullable = false)
+    private String password;
+
+   
+    private String role;
+}

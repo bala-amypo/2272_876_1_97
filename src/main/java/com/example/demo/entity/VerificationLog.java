@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Table(name = "verification_logs")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,19 +18,19 @@ public class VerificationLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+  
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "certificate_id", nullable = false)
     private Certificate certificate;
 
-    private String verificationCode;
-
-    private String verifiedBy;
-
+  
     private LocalDateTime verifiedAt;
 
-    
-    public VerificationLog(Certificate certificate, String verificationCode, String verifiedBy) {
-        this.certificate = certificate;
-        this.verificationCode = verificationCode;
-        this.verifiedBy = verifiedBy;
-    }
+   
+    @Column(nullable = false)
+    private String status;
+
+   
+    @Column(nullable = false)
+    private String ipAddress;
 }
