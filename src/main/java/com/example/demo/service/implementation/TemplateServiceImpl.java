@@ -16,11 +16,11 @@ public class TemplateServiceImpl implements TemplateService {
         this.repository = repository;
     }
 
-    public CertificateTemplate addTemplate(CertificateTemplate temp) {
+    public CertificateTemplate getTemplate(CertificateTemplate temp) {
         return repository.save(temp); 
     }
 
-    public List<CertificateTemplate> fetchTemplate() {
+    public List<CertificateTemplate> getAllTemplates() {
         return repository.findAll();
     }
 }
