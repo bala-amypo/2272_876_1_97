@@ -19,6 +19,17 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public CertificateTemplate addTemplate(CertificateTemplate template) {
+        // Check for duplicate templateName
+        Optional<CertificateTemplate> existing = repository.findByTemplateName(template.getTemplateName());
+        if (existing.isPresent()) {
+            throw new RuntimeException("Template name exists");
+        }
+
+        // Optional: validate backgroundUrl here (non-null, proper URL)
+        if (template.getBackgroundUrl() != null && !template.getBackgroundUrl().startsWith("http")) {
+            throw new RuntimeException("Invalid background URL");
+        }
+
         return repository.save(template);
     }
 
@@ -29,7 +40,7 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public CertificateTemplate findById(Long id) {
-        Optional<CertificateTemplate> optional = repository.findById(id);
-        return optional.orElse(null);  
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Template not found"));
     }
 }
