@@ -8,9 +8,5 @@ import java.util.Optional;
 @Repository
 public interface CertificateRepository extends JpaRepository<Certificate, Long> {
 
-    // Wrong: findByCode
-    // Optional<Certificate> findByCode(String code);
-
-    // Correct: matches the field name in Certificate entity
     Optional<Certificate> findByVerificationCode(String verificationCode);
 }
