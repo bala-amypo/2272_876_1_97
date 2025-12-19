@@ -15,27 +15,22 @@ public class CertificateController {
         this.certificateService = certificateService;
     }
 
-    // POST /certificates/generate/{studentId}/{templateId}
+    
     @PostMapping("/generate/{studentId}/{templateId}")
-    public Certificate generateCertificate(
-            @PathVariable Long studentId,
-            @PathVariable Long templateId) {
+    public Certificate generateCertificate(@PathVariable Long studentId,@PathVariable Long templateId) {
 
         return certificateService.generateCertificate(studentId, templateId);
     }
 
-    // GET /certificates/{certificateId}
+   
     @GetMapping("/{certificateId}")
-    public Certificate getCertificate(
-            @PathVariable Long certificateId) {
+    public Certificate getCertificate(@PathVariable Long certificateId) {
 
         return certificateService.getCertificate(certificateId);
     }
 
-    // GET /certificates/verify/code/{verificationCode}
     @GetMapping("/verify/code/{verificationCode}")
-    public Certificate getCertificateByCode(
-            @PathVariable String verificationCode) {
+    public Certificate getCertificateByCode(@PathVariable String verificationCode) {
 
         return certificateService.findByVerificationCode(verificationCode);
     }
