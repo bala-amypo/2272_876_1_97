@@ -6,7 +6,7 @@ import com.example.demo.entity.VerificationLog;
 
 public interface VerificationService {
 
-    void verifyCertificate(String verificationCode);
+    VerificationLog verifyCertificate(String verificationCode, String clientIp);
 
-    List<VerificationLog> getLogsByCertificateId(Long certificateId);
+    List<VerificationLog> getLogsByCertificate(Long certificateId);
 }
