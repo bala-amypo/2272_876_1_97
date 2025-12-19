@@ -1,35 +1,30 @@
 package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.entity.VerificationLog;
 import com.example.demo.service.VerificationService;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
 @RequestMapping("/verify")
 public class VerificationController {
 
-    private final VerificationService verificationService;
+    private final VerificationService service;
 
-    public VerificationController(VerificationService verificationService) {
-        this.verificationService = verificationService;
+    public VerificationController(VerificationService service) {
+        this.service = service;
     }
 
     @PostMapping("/{verificationCode}")
-    public VerificationLog verifyCertificate(
-            @PathVariable String verificationCode,
-            HttpServletRequest request) {
-
-        String clientIp = request.getRemoteAddr();
-        return verificationService.verifyCertificate(verificationCode, clientIp);
+    public VerificationLog verifyCertificate(@PathVariable String verificationCode,
+                                             @RequestHeader("X-Forwarded-For") String clientIp) {
+        // fallback to remoteAddr if header missing could be added in real use
+        return service.verifyCertificate(verificationCode, clientIp);
     }
 
     @GetMapping("/logs/{certificateId}")
-    public List<VerificationLog> getLogsByCertificate(
-            @PathVariable Long certificateId) {
-        return verificationService.getLogsByCertificate(certificateId);
+    public List<VerificationLog> getLogsByCertificate(@PathVariable Long certificateId) {
+        return service.getLogsByCertificate(certificateId);
     }
 }
