@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
-import java.util.*;
+import java.util.List;
 
 @Entity
 @Table(name = "certificate_templates")
@@ -23,16 +23,14 @@ public class CertificateTemplate {
     private String templateName;
 
     @NotBlank
-    @Pattern(
-        regexp = "^(http|https)://.*$",
-        message = "Background URL must be a valid HTTP or HTTPS URL"
-    )
+    @Pattern(regexp = "^(http|https)://.*$", message = "Background URL must be valid HTTP/HTTPS URL")
     @Column(nullable = false)
     private String backgroundUrl;
 
     private String fontStyle;
 
     private String signatureName;
-     @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
     private List<Certificate> certificates;
 }

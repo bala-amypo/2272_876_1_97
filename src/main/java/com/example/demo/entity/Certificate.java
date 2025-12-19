@@ -1,3 +1,5 @@
+package com.example.demo.entity;
+
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -16,9 +18,11 @@ public class Certificate {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
     @ManyToOne
+    @JoinColumn(name = "template_id", nullable = false)
     private CertificateTemplate template;
 
     private LocalDate issuedDate;
