@@ -15,12 +15,12 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public Student addStudent(@RequestBody Student student) {
         return studentService.addStudent(student);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();
     }

@@ -5,6 +5,7 @@ import com.example.demo.entity.Student;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.service.StudentService;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -17,11 +18,21 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student addStudent(Student student) {
+        if (repository.findByEmail(student.getEmail()).isPresent() ||
+            repository.findByRollNumber(student.getRollNumber()).isPresent()) {
+            throw new RuntimeException("Student email exists");
+        }
         return repository.save(student);
     }
 
     @Override
     public List<Student> getAllStudents() {
         return repository.findAll();
+    }
+
+    @Override
+    public Student findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
     }
 }
