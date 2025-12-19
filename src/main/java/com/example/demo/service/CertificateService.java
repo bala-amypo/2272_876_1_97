@@ -8,5 +8,5 @@ public interface CertificateService {
 
     Certificate getCertificateById(Long certificateId);
 
-    Certificate getCertificateByVerificationCode(String verificationCode);
+    Certificate findByVerificationCode(String verificationCode);
 }
