@@ -16,10 +16,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Full name of admin or staff
+    
     private String name;
 
-    // Unique login email
+   
     @Column(unique = true, nullable = false)
     private String email;
 
