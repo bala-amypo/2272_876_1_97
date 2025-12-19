@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "certificates")
@@ -28,11 +29,14 @@ public class Certificate {
     @JsonIgnoreProperties({"certificates"})
     private CertificateTemplate template;
 
+    @Column(unique = true, nullable = false)
+    private String verificationCode; // Must start with "VC-"
+
+    private String qrCodeUrl; // Base64 QR code image
+
     private LocalDate issuedDate;
 
-    @Column(unique = true, nullable = false)
-    private String verificationCode; // must start with "VC-"
-
-    @Column(length = 1000)
-    private String qrCodeUrl; // Base64 QR code
+    @OneToMany(mappedBy = "certificate")
+    @JsonIgnoreProperties({"certificate"})
+    private List<VerificationLog> verificationLogs;
 }
