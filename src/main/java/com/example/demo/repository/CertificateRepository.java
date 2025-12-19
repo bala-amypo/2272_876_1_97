@@ -7,6 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface CertificateRepository extends JpaRepository<Certificate, Long> {
-
     Optional<Certificate> findByVerificationCode(String verificationCode);
 }

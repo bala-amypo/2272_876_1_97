@@ -7,7 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface CertificateTemplateRepository extends JpaRepository<CertificateTemplate, Long> {
-
     Optional<CertificateTemplate> findByTemplateName(String templateName);
-
 }

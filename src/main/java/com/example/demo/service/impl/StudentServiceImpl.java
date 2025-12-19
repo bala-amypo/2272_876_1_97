@@ -17,25 +17,11 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student addStudent(Student student) {
-        // Check for duplicate email
-        if (repository.findByEmail(student.getEmail()).isPresent()) {
-            throw new RuntimeException("Student email exists");
-        }
-        // Check for duplicate roll number
-        if (repository.findByRollNumber(student.getRollNumber()).isPresent()) {
-            throw new RuntimeException("Student roll number exists");
-        }
         return repository.save(student);
     }
 
     @Override
     public List<Student> getAllStudents() {
         return repository.findAll();
-    }
-
-    @Override
-    public Student findById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
     }
 }

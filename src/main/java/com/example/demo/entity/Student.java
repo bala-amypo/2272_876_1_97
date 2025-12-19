@@ -5,11 +5,7 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "students", 
-       uniqueConstraints = {
-           @UniqueConstraint(columnNames = {"email"}),
-           @UniqueConstraint(columnNames = {"rollNumber"})
-       })
+@Table(name = "students")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,12 +18,7 @@ public class Student {
     private Long id;
 
     private String name;
-
-    @Column(nullable = false, unique = true)
     private String email;
-
-    @Column(nullable = false, unique = true)
-    private String rollNumber;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Certificate> certificates;

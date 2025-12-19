@@ -8,19 +8,9 @@ import com.example.demo.repository.CertificateRepository;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.CertificateTemplateRepository;
 import com.example.demo.service.CertificateService;
-
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.Base64;
-import java.io.ByteArrayOutputStream;
-import java.awt.image.BufferedImage;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
 
 @Service
 public class CertificateServiceImpl implements CertificateService {
@@ -29,10 +19,9 @@ public class CertificateServiceImpl implements CertificateService {
     private final StudentRepository studentRepository;
     private final CertificateTemplateRepository templateRepository;
 
-    public CertificateServiceImpl(
-            CertificateRepository certificateRepository,
-            StudentRepository studentRepository,
-            CertificateTemplateRepository templateRepository) {
+    public CertificateServiceImpl(CertificateRepository certificateRepository,
+                                  StudentRepository studentRepository,
+                                  CertificateTemplateRepository templateRepository) {
         this.certificateRepository = certificateRepository;
         this.studentRepository = studentRepository;
         this.templateRepository = templateRepository;
@@ -42,18 +31,14 @@ public class CertificateServiceImpl implements CertificateService {
     public Certificate generateCertificate(Long studentId, Long templateId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
+
         CertificateTemplate template = templateRepository.findById(templateId)
                 .orElseThrow(() -> new RuntimeException("Template not found"));
-
-        String verificationCode = "VC-" + UUID.randomUUID().toString();
-
-        String qrCodeUrl = generateQRCodeBase64(verificationCode);
 
         Certificate certificate = Certificate.builder()
                 .student(student)
                 .template(template)
-                .verificationCode(verificationCode)
-                .qrCodeUrl(qrCodeUrl)
+                .verificationCode(UUID.randomUUID().toString())
                 .issuedDate(LocalDate.now())
                 .build();
 
@@ -61,37 +46,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public Certificate getCertificate(Long certificateId) {
-        return certificateRepository.findById(certificateId)
-                .orElseThrow(() -> new RuntimeException("Certificate not found"));
-    }
-
-    @Override
-    public Certificate findByVerificationCode(String code) {
-        return certificateRepository.findByVerificationCode(code)
-                .orElseThrow(() -> new RuntimeException("Certificate not found"));
-    }
-
-    @Override
-    public List<Certificate> findByStudentId(Long studentId) {
-        Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
-        return certificateRepository.findByStudent_Id(student.getId());
-    }
-
-    // Helper method to generate QR code in Base64
-    private String generateQRCodeBase64(String text) {
-        try {
-            QRCodeWriter qrCodeWriter = new QRCodeWriter();
-            BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, 250, 250);
-            BufferedImage image = MatrixToImageWriter.toBufferedImage(bitMatrix);
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            javax.imageio.ImageIO.write(image, "png", baos);
-
-            return "data:image/png;base64," + Base64.getEncoder().encodeToString(baos.toByteArray());
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to generate QR code", e);
-        }
+    public Optional<Certificate> getCertificateByVerificationCode(String code) {
+        return certificateRepository.findByVerificationCode(code);
     }
 }
