@@ -15,11 +15,11 @@
     
 //     @PostMapping("/register")
 //     public User register(@RequestBody User user){
-//         return  userservice.createData(use);
+//         return  userservice.regidter(use);
 //     }
 //     @PostMapping("/login")
 //     public User findByEmail(@RequestBody User user){
-//         return  userservice.logData(use);
+//         return  userservice.findByEmail(use);
 //     }
 
 // }

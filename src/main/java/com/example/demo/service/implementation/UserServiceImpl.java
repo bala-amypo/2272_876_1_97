@@ -15,11 +15,11 @@
 //         this.repository = repository;
 //     }
 
-//     public User createData(User user) {
+//     public User register(User user) {
 //         return repository.save(user); 
 //     }
 
-//     public User logData(User user) {
+//     public User findByEmail(User user) {
 //         return repository.save(user);
 //     }
 // }
