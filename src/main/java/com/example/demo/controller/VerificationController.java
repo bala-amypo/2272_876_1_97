@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.VerificationLog;
@@ -17,20 +18,18 @@ public class VerificationController {
         this.verificationService = verificationService;
     }
 
-   
-    @PostMapping("/{verificationCode}")
-    public String verifyCertificate(
-            @PathVariable String verificationCode) {
 
-        verificationService.verifyCertificate(verificationCode);
-        return "Certificate verified successfully";
+    @PostMapping("/{verificationCode}")
+    public VerificationLog verifyCertificate(@PathVariable String verificationCode,HttpServletRequest request) {
+
+        String clientIp = request.getRemoteAddr();
+        return verificationService.verifyCertificate(verificationCode, clientIp);
     }
 
    
     @GetMapping("/logs/{certificateId}")
-    public List<VerificationLog> getVerificationLogs(
-            @PathVariable Long certificateId) {
+    public List<VerificationLog> getVerificationLogs(@PathVariable Long certificateId) {
 
-        return verificationService.getLogsByCertificateId(certificateId);
+        return verificationService.getLogsByCertificate(certificateId);
     }
 }
