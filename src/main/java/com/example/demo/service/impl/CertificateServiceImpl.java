@@ -8,8 +8,9 @@ import com.example.demo.repository.CertificateRepository;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.CertificateTemplateRepository;
 import com.example.demo.service.CertificateService;
+
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -35,10 +36,14 @@ public class CertificateServiceImpl implements CertificateService {
         CertificateTemplate template = templateRepository.findById(templateId)
                 .orElseThrow(() -> new RuntimeException("Template not found"));
 
+        String verificationCode = "VC-" + UUID.randomUUID().toString();
+        String qrCodeUrl = generateQrCodeBase64(verificationCode);
+
         Certificate certificate = Certificate.builder()
                 .student(student)
                 .template(template)
-                .verificationCode(UUID.randomUUID().toString())
+                .verificationCode(verificationCode)
+                .qrCodeUrl(qrCodeUrl)
                 .issuedDate(LocalDate.now())
                 .build();
 
@@ -46,7 +51,27 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public Optional<Certificate> getCertificateByVerificationCode(String code) {
-        return certificateRepository.findByVerificationCode(code);
+    public Certificate getCertificate(Long certificateId) {
+        return certificateRepository.findById(certificateId)
+                .orElseThrow(() -> new RuntimeException("Certificate not found"));
+    }
+
+    @Override
+    public Certificate findByVerificationCode(String code) {
+        return certificateRepository.findByVerificationCode(code)
+                .orElseThrow(() -> new RuntimeException("Certificate not found"));
+    }
+
+    @Override
+    public List<Certificate> findByStudentId(Long studentId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+        return certificateRepository.findByStudent(student);
+    }
+
+    // TODO: implement real QR code generation
+    private String generateQrCodeBase64(String text) {
+        // Placeholder: in real code, generate QR and encode to Base64
+        return "data:image/png;base64,FAKE_BASE64_QR_" + text;
     }
 }

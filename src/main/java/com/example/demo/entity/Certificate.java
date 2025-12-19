@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "certificates")
@@ -25,9 +26,15 @@ public class Certificate {
     @JoinColumn(name = "template_id")
     private CertificateTemplate template;
 
-    @Column(name = "verification_code", unique = true)
+    @Column(name = "verification_code", unique = true, nullable = false)
     private String verificationCode;
 
     @Column(name = "issued_date")
     private LocalDate issuedDate;
+
+    @Column(name = "qr_code_url", columnDefinition = "TEXT")
+    private String qrCodeUrl;
+
+    @OneToMany(mappedBy = "certificate", cascade = CascadeType.ALL)
+    private List<VerificationLog> verificationLogs;
 }
