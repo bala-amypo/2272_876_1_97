@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -36,5 +37,6 @@ public class Certificate {
     private String qrCodeUrl;
 
     @OneToMany(mappedBy = "certificate", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<VerificationLog> verificationLogs;
 }

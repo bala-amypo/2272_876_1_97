@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import java.util.List;
 
@@ -33,5 +34,6 @@ public class CertificateTemplate {
     private String signatureName;
 
     @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Certificate> certificates;
 }
