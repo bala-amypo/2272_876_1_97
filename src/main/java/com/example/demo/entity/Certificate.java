@@ -1,32 +1,32 @@
-package com.example.demo.entity;
+// package com.example.demo.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-import java.time.LocalDate;
+// import jakarta.persistence.*;
+// import lombok.*;
+// import java.time.LocalDate;
 
-@Entity
-@Table(name = "certificates")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Certificate {
+// @Entity
+// @Table(name = "certificates")
+// @Getter
+// @Setter
+// @NoArgsConstructor
+// @AllArgsConstructor
+// @Builder
+// public class Certificate {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//     @Id
+//     @GeneratedValue(strategy = GenerationType.IDENTITY)
+//     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+//     @ManyToOne
+//     @JoinColumn(name = "student_id")
+//     private Student student;
 
-    @ManyToOne
-    @JoinColumn(name = "template_id")
-    private CertificateTemplate template;
+//     @ManyToOne
+//     @JoinColumn(name = "template_id")
+//     private CertificateTemplate template;
 
-    @Column(unique = true)
-    private String code;
+//     @Column(unique = true)
+//     private String code;
 
-    private LocalDate issueDate;
-}
+//     private LocalDate issueDate;
+// }

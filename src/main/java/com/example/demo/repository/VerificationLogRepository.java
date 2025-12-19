@@ -8,3 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+public interface VerificationLogRepository extends JpaRepository<VerificationLog, Long> {
+    List<VerificationLog> findByCertificateId(Long certificateId);
+}

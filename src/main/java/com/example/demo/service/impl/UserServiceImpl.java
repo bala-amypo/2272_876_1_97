@@ -10,7 +10,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
 
- 
     public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
     }
@@ -21,7 +20,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByEmail(User user) {
-        return repository.save(user);
+    public User findByEmail(String email) {
+        return repository.findByEmail(email).orElse(null);
     }
 }
