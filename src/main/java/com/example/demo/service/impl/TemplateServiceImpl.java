@@ -2,8 +2,6 @@ package com.example.demo.service.impl;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
-
 import com.example.demo.entity.CertificateTemplate;
 import com.example.demo.repository.CertificateTemplateRepository;
 import com.example.demo.service.TemplateService;
@@ -19,16 +17,14 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public CertificateTemplate addTemplate(CertificateTemplate template) {
-        // Check for duplicate templateName
-        Optional<CertificateTemplate> existing = repository.findByTemplateName(template.getTemplateName());
-        if (existing.isPresent()) {
-            throw new RuntimeException("Template name exists");
+
+        if (template.getTemplateName() == null || template.getBackgroundUrl() == null) {
+            throw new RuntimeException("Template fields cannot be null");
         }
 
-        // Optional: validate backgroundUrl here (non-null, proper URL)
-        if (template.getBackgroundUrl() != null && !template.getBackgroundUrl().startsWith("http")) {
-            throw new RuntimeException("Invalid background URL");
-        }
+        repository.findByTemplateName(template.getTemplateName()).ifPresent(t -> {
+            throw new RuntimeException("Template name exists");
+        });
 
         return repository.save(template);
     }

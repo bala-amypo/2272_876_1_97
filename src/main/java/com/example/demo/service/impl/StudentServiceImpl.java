@@ -1,11 +1,10 @@
 package com.example.demo.service.impl;
 
 import org.springframework.stereotype.Service;
-import java.util.List;
-
 import com.example.demo.entity.Student;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.service.StudentService;
+import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -18,6 +17,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student addStudent(Student student) {
+
+        if (student.getEmail() == null || student.getRollNumber() == null || student.getName() == null) {
+            throw new RuntimeException("Student fields cannot be null");
+        }
 
         repository.findByEmail(student.getEmail()).ifPresent(s -> {
             throw new RuntimeException("Student email exists");

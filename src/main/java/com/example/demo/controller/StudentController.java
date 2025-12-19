@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
 import com.example.demo.entity.Student;
 import com.example.demo.service.StudentService;
 
@@ -24,5 +23,10 @@ public class StudentController {
     @GetMapping
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();
+    }
+
+    @GetMapping("/{id}")
+    public Student getStudentById(@PathVariable Long id) {
+        return studentService.findById(id);
     }
 }

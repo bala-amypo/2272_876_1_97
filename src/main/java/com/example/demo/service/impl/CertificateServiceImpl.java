@@ -10,9 +10,9 @@ import com.example.demo.repository.CertificateTemplateRepository;
 import com.example.demo.service.CertificateService;
 
 import java.time.LocalDate;
-import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
+import java.util.Base64;
 
 @Service
 public class CertificateServiceImpl implements CertificateService {
@@ -31,24 +31,25 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Override
     public Certificate generateCertificate(Long studentId, Long templateId) {
+
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
 
         CertificateTemplate template = templateRepository.findById(templateId)
                 .orElseThrow(() -> new RuntimeException("Template not found"));
 
+        // Create unique verification code starting with VC-
         String verificationCode = "VC-" + UUID.randomUUID().toString().substring(0, 8);
 
-        // Generate QR code (placeholder: base64 of verification code)
-        String qrCode = Base64.getEncoder().encodeToString(verificationCode.getBytes());
-        String qrCodeUrl = "data:image/png;base64," + qrCode;
+        // For demonstration: simple QR code placeholder (Base64 string)
+        String qrCodeBase64 = "data:image/png;base64," + Base64.getEncoder().encodeToString(verificationCode.getBytes());
 
         Certificate certificate = Certificate.builder()
                 .student(student)
                 .template(template)
-                .verificationCode(verificationCode)
                 .issuedDate(LocalDate.now())
-                .qrCodeUrl(qrCodeUrl)
+                .verificationCode(verificationCode)
+                .qrCodeUrl(qrCodeBase64)
                 .build();
 
         return certificateRepository.save(certificate);
@@ -70,6 +71,7 @@ public class CertificateServiceImpl implements CertificateService {
     public List<Certificate> findByStudentId(Long studentId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
+
         return certificateRepository.findByStudent(student);
     }
 }
