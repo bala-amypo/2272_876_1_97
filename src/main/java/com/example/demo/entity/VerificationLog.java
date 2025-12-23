@@ -3,7 +3,6 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
-import lombok.var;
 
 @Entity
 @Table(name = "verification_logs")
