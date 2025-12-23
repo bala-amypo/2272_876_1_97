@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import java.util.List;
+import lombok.var;
 
 @Entity
 @Table(name = "certificate_templates",
