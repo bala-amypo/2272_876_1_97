@@ -18,4 +18,6 @@ public class AuthController {
     public User register(@RequestBody User user) {
         return userService.register(user);
     }
+    @PostMapping
+    
 }
