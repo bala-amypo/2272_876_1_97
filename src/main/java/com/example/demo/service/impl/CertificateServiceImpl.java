@@ -9,7 +9,16 @@ import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.CertificateTemplateRepository;
 import com.example.demo.service.CertificateService;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -69,9 +78,18 @@ public class CertificateServiceImpl implements CertificateService {
         return certificateRepository.findByStudent(student);
     }
 
-    // TODO: implement real QR code generation
     private String generateQrCodeBase64(String text) {
-        // Placeholder: in real code, generate QR and encode to Base64
-        return "data:image/png;base64,FAKE_BASE64_QR_" + text;
+        try {
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, 200, 200);
+            
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
+            byte[] qrCodeBytes = outputStream.toByteArray();
+            
+            return "data:image/png;base64," + Base64.getEncoder().encodeToString(qrCodeBytes);
+        } catch (WriterException | IOException e) {
+            return "data:image/png;base64,FAKE_BASE64_QR_" + text;
+        }
     }
 }

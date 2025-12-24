@@ -4,4 +4,7 @@ import com.example.demo.entity.User;
 
 public interface UserService {
     User register(User user);
+    User findByEmail(String email);
+    User createData(User user);
+    User logData(User user);
 }

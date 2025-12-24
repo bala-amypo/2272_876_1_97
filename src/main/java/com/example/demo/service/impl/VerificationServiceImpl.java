@@ -16,10 +16,10 @@ public class VerificationServiceImpl implements VerificationService {
     private final VerificationLogRepository logRepository;
     private final CertificateRepository certificateRepository;
 
-    public VerificationServiceImpl(VerificationLogRepository logRepository,
-                                   CertificateRepository certificateRepository) {
-        this.logRepository = logRepository;
+    public VerificationServiceImpl(CertificateRepository certificateRepository,
+                                   VerificationLogRepository logRepository) {
         this.certificateRepository = certificateRepository;
+        this.logRepository = logRepository;
     }
 
     @Override
