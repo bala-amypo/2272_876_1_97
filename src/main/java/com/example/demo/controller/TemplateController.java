@@ -7,7 +7,7 @@ import com.example.demo.entity.CertificateTemplate;
 import com.example.demo.service.TemplateService;
 
 @RestController
-@RequestMapping("/templates")
+@RequestMapping("/api/templates")
 public class TemplateController {
 
     private final TemplateService service;
@@ -16,19 +16,16 @@ public class TemplateController {
         this.service = service;
     }
 
-    // Add a new template
     @PostMapping
-    public CertificateTemplate addTemplate(@RequestBody CertificateTemplate template) {
+    public CertificateTemplate add(@RequestBody CertificateTemplate template) {
         return service.addTemplate(template);
     }
 
-    // Get all templates
     @GetMapping
-    public List<CertificateTemplate> getAllTemplates() {
+    public List<CertificateTemplate> list() {
         return service.getAllTemplates();
     }
 
-    // Get template by id
     @GetMapping("/{id}")
     public CertificateTemplate getTemplateById(@PathVariable Long id) {
         return service.findById(id);

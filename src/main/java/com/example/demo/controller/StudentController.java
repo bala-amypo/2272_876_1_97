@@ -6,7 +6,7 @@ import com.example.demo.service.StudentService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/api/students")
 public class StudentController {
 
     private final StudentService studentService;
@@ -16,12 +16,12 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student addStudent(@RequestBody Student student) {
+    public Student add(@RequestBody Student student) {
         return studentService.addStudent(student);
     }
 
     @GetMapping
-    public List<Student> getAllStudents() {
+    public List<Student> list() {
         return studentService.getAllStudents();
     }
 }
