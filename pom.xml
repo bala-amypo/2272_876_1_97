@@ -131,6 +131,8 @@
 				<version>3.13.0</version>
 				<configuration>
 					<release>17</release>
+					<testSource>8</testSource>
+        			<testTarget>8</testTarget>
 				</configuration>
 			</plugin>
 		</plugins>
