@@ -6,7 +6,7 @@ import com.example.demo.service.CertificateService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/certificates")
+@RequestMapping("/api/certificates")
 public class CertificateController {
 
     private final CertificateService certificateService;
@@ -16,13 +16,13 @@ public class CertificateController {
     }
 
     @PostMapping("/generate/{studentId}/{templateId}")
-    public Certificate generateCertificate(@PathVariable Long studentId,
-                                           @PathVariable Long templateId) {
+    public Certificate generate(@PathVariable Long studentId,
+                               @PathVariable Long templateId) {
         return certificateService.generateCertificate(studentId, templateId);
     }
 
     @GetMapping("/{certificateId}")
-    public Certificate getCertificate(@PathVariable Long certificateId) {
+    public Certificate get(@PathVariable Long certificateId) {
         return certificateService.getCertificate(certificateId);
     }
 
