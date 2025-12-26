@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
@@ -9,6 +10,7 @@ import com.example.demo.service.UserService;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
@@ -22,6 +24,10 @@ public class UserServiceImpl implements UserService {
         if (user.getRole() == null) {
             user.setRole("STAFF");
         }
+        if (!user.getPassword().startsWith("$2a$")) { // BCrypt hash starts with $2a$
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
         return repository.save(user);
     }
 
