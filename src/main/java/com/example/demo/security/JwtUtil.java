@@ -51,7 +51,7 @@ public class JwtUtil {
                 .getBody();
     }
 
-    // ✅ Public static wrapper for test CRT requirement
+    // ✅ Public static wrapper for CRT requirement
     public ClaimsWrapper parseToken(String token) {
         return new ClaimsWrapper(parseTokenRaw(token));
     }
