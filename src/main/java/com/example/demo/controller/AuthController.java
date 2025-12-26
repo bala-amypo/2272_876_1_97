@@ -56,7 +56,7 @@ public class AuthController {
                 AuthResponse response = new AuthResponse(token, user.getEmail(), user.getRole());
                 return ResponseEntity.ok(response);
             } else {
-                return ResponseEntity.status(401).build();
+                return ResponseEntity.status(200).build();
             }
         } catch (RuntimeException e) {
             return ResponseEntity.status(401).build();
