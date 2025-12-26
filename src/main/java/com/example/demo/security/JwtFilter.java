@@ -1,74 +1,60 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.crypto.SecretKey;
-import java.util.Date;
-import java.util.Map;
+import java.io.IOException;
+import java.util.List;
 
 @Component
-public class JwtUtil {
+public class JwtFilter extends OncePerRequestFilter {
 
-    private final SecretKey key;
-    private final long expiration;
+    private final JwtUtil jwtUtil;
 
-    public JwtUtil() {
-        this("abcdefghijklmnopqrstuvwxyz0123456789ABCD", 3600000L);
+    public JwtFilter(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
     }
 
-    public JwtUtil(String secret, long expiration) {
-        this.key = Keys.hmacShaKeyFor(secret.getBytes());
-        this.expiration = expiration;
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return request.getRequestURI().startsWith("/api/auth/");
     }
 
-    public String generateToken(Map<String, Object> claims, String subject) {
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
-    }
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
 
-    public boolean validateToken(String token) {
-        try {
-            parseTokenRaw(token);
-            return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
-        }
-    }
+        String authHeader = request.getHeader("Authorization");
 
-    // Used by JwtFilter
-    public Claims parseTokenRaw(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
 
-    // ✅ Public static wrapper for test CRT requirement
-    public ClaimsWrapper parseToken(String token) {
-        return new ClaimsWrapper(parseTokenRaw(token));
-    }
+            if (jwtUtil.validateToken(token)) {
+                Claims claims = jwtUtil.parseTokenRaw(token);
+                String email = claims.getSubject();
+                String role = (String) claims.get("role");
 
-    public static class ClaimsWrapper {
-        private final Claims claims;
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(
+                                email,
+                                null,
+                                List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                        );
 
-        public ClaimsWrapper(Claims claims) {
-            this.claims = claims;
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
 
-        public Claims getBody() {
-            return claims;
-        }
-
-        public String getSubject() {
-            return claims.getSubject();
-        }
+        filterChain.doFilter(request, response);
     }
 }
