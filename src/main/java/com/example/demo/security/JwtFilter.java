@@ -22,24 +22,18 @@ public class JwtFilter extends OncePerRequestFilter {
     public JwtFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
-    @Override
-protected boolean shouldNotFilter(HttpServletRequest request) {
-    return request.getRequestURI().startsWith("/api/auth/");
-}
 
-
+    // ✅ ONLY ONE shouldNotFilter — VERY IMPORTANT
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        String path = request.getRequestURI();
-        return path.startsWith("/api/auth/")
-                || path.startsWith("/swagger-ui/")
-                || path.startsWith("/v3/api-docs/");
+        return request.getRequestURI().startsWith("/api/auth/");
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain)
             throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
