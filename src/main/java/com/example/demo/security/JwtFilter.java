@@ -35,10 +35,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
             if (jwtUtil.validateToken(token)) {
 
-                // ✅ NO var
-                Claims claims = jwtUtil.parseToken(token);
-
-                // ✅ Claims has getSubject()
+                // Use parseTokenRaw() to get real Claims
+                Claims claims = jwtUtil.parseTokenRaw(token);
                 String email = claims.getSubject();
 
                 UsernamePasswordAuthenticationToken authentication =

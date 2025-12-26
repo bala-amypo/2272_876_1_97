@@ -8,23 +8,12 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Map;
 
-// Simple wrapper just to satisfy test calling getBody()
+// Wrapper for tests that call getBody()
 class ClaimsWrapper {
     private final Claims claims;
-
-    public ClaimsWrapper(Claims claims) {
-        this.claims = claims;
-    }
-
-    // This is the “fake” method the test expects
-    public Claims getBody() {
-        return claims;
-    }
-
-    // If your test uses getSubject(), delegate
-    public String getSubject() {
-        return claims.getSubject();
-    }
+    public ClaimsWrapper(Claims claims) { this.claims = claims; }
+    public Claims getBody() { return claims; }
+    public String getSubject() { return claims.getSubject(); }
 }
 
 @Component
@@ -54,19 +43,24 @@ public class JwtUtil {
 
     public boolean validateToken(String token) {
         try {
-            parseToken(token);
+            parseTokenRaw(token);  // use raw claims for validation
             return true;
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
 
-    // ✅ Returns wrapper so test can call getBody() and getSubject()
-    public ClaimsWrapper parseToken(String token) {
-        Jws<Claims> jws = Jwts.parserBuilder()
+    // ✅ Production / JwtFilter uses this
+    public Claims parseTokenRaw(String token) {
+        return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJws(token);
-        return new ClaimsWrapper(jws.getBody());
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    // ✅ Test calls getBody() on this
+    public ClaimsWrapper parseToken(String token) {
+        return new ClaimsWrapper(parseTokenRaw(token));
     }
 }
