@@ -15,7 +15,7 @@ public class JwtUtil {
     private final long expiration;
 
     public JwtUtil() {
-        this("abcdefghijklmnopqrstuvwxyz0123456789ABCD", 3600000L);
+        this("abcdefghijklmnopqrstuvwxyz0123456789ABCD", 3600000L); // 1 hour
     }
 
     public JwtUtil(String secret, long expiration) {
@@ -42,33 +42,11 @@ public class JwtUtil {
         }
     }
 
-    // Used by JwtFilter
     public Claims parseTokenRaw(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-    }
-
-    // ✅ Public static wrapper for test CRT requirement
-    public ClaimsWrapper parseToken(String token) {
-        return new ClaimsWrapper(parseTokenRaw(token));
-    }
-
-    public static class ClaimsWrapper {
-        private final Claims claims;
-
-        public ClaimsWrapper(Claims claims) {
-            this.claims = claims;
-        }
-
-        public Claims getBody() {
-            return claims;
-        }
-
-        public String getSubject() {
-            return claims.getSubject();
-        }
     }
 }

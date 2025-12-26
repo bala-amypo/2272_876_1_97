@@ -41,7 +41,12 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest req) {
-        User user = userService.findByEmail(req.getEmail());
+        User user;
+        try {
+            user = userService.findByEmail(req.getEmail());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(401).build();
+        }
 
         if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
             return ResponseEntity.status(401).build();
@@ -49,7 +54,6 @@ public class AuthController {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", user.getRole());
-
         String token = jwtUtil.generateToken(claims, user.getEmail());
 
         return ResponseEntity.ok(new AuthResponse(token, user.getName(), user.getRole()));
