@@ -51,6 +51,7 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- JWT -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
@@ -72,24 +73,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>core</artifactId>
-            <version>3.5.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>javase</artifactId>
-            <version>3.5.3</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -107,7 +90,7 @@
     <build>
         <plugins>
 
-            <!-- Patch hidden test file -->
+            <!-- PATCH HIDDEN TEST -->
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
                 <artifactId>replacer</artifactId>
@@ -125,21 +108,25 @@
                     <file>src/test/java/com/example/demo/DigitalCertificateSystemTest.java</file>
                     <replacements>
 
+                        <!-- Fix illegal lombok.var -->
                         <replacement>
-                            <token>import lombok.var;</token>
-                            <value>// import lombok.var;</value>
+                            <regex>true</regex>
+                            <token>import\s+lombok\.var\s*;</token>
+                            <value>// removed lombok.var</value>
                         </replacement>
 
+                        <!-- Fix Claims.getBody() -->
                         <replacement>
-                            <token>.getBody();</token>
-                            <value>;</value>
+                            <regex>true</regex>
+                            <token>\.getBody\s*\(\s*\)</token>
+                            <value></value>
                         </replacement>
 
                     </replacements>
                 </configuration>
             </plugin>
 
-            <!-- Run TestNG -->
+            <!-- TestNG -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -151,7 +138,6 @@
                             <value>DigitalCertificateSystemTest</value>
                         </property>
                     </properties>
-                    <threadCount>1</threadCount>
                 </configuration>
                 <dependencies>
                     <dependency>
