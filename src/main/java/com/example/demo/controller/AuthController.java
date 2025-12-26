@@ -42,11 +42,14 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest req) {
-        // Use userService to find user
-        User user = userService.findByEmail(req.getEmail())
-                .orElse(null);
+        User user;
+        try {
+            user = userService.findByEmail(req.getEmail());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(401).build(); // user not found
+        }
 
-        if (user == null || !passwordEncoder.matches(req.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
             return ResponseEntity.status(401).build();
         }
 
@@ -54,9 +57,7 @@ public class AuthController {
         claims.put("email", user.getEmail());
         String token = jwtUtil.generateToken(claims, user.getEmail());
 
-        // Use the constructor that matches your DTO
         AuthResponse authResp = new AuthResponse(token, user.getName(), user.getRole());
-
         return ResponseEntity.ok(authResp);
     }
 }
