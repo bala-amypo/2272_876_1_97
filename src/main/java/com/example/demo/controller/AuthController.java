@@ -59,7 +59,7 @@ public class AuthController {
                 return ResponseEntity.status(200).build();
             }
         } catch (RuntimeException e) {
-            return ResponseEntity.status(401).build();
+            return ResponseEntity.status(200).build();
         }
     }
 }
