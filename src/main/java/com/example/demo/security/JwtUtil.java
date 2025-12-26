@@ -42,11 +42,11 @@ public class JwtUtil {
         }
     }
 
-    public Claims parseToken(String token) {
+    // ✅ THIS SIGNATURE IS REQUIRED BY THE TEST
+    public Jws<Claims> parseToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseClaimsJws(token);
     }
 }
