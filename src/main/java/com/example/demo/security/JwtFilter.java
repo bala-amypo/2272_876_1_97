@@ -23,7 +23,7 @@ public class JwtFilter extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
     }
 
-    // ✅ ONLY ONE shouldNotFilter — VERY IMPORTANT
+    // 🔥 THIS IS CRITICAL — AUTH ENDPOINTS BYPASS FILTER
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         return request.getRequestURI().startsWith("/api/auth/");
