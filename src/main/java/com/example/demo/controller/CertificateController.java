@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.entity.Certificate;
 import com.example.demo.service.CertificateService;
@@ -15,22 +16,30 @@ public class CertificateController {
         this.certificateService = certificateService;
     }
 
+    // Only ADMIN can generate certificates
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/generate/{studentId}/{templateId}")
     public Certificate generate(@PathVariable Long studentId,
                                @PathVariable Long templateId) {
         return certificateService.generateCertificate(studentId, templateId);
     }
 
+    // ADMIN and STAFF can get by ID
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @GetMapping("/{certificateId}")
     public Certificate get(@PathVariable Long certificateId) {
         return certificateService.getCertificate(certificateId);
     }
 
+    // Public access to verify certificate code
+    @PreAuthorize("permitAll()")
     @GetMapping("/verify/code/{verificationCode}")
     public Certificate getCertificateByCode(@PathVariable String verificationCode) {
         return certificateService.findByVerificationCode(verificationCode);
     }
 
+    // ADMIN and STAFF can get certificates by student
+    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @GetMapping("/student/{studentId}")
     public List<Certificate> getCertificatesByStudent(@PathVariable Long studentId) {
         return certificateService.findByStudentId(studentId);
