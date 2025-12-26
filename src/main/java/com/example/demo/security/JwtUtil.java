@@ -8,14 +8,6 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Map;
 
-// Wrapper for tests that call getBody()
-class ClaimsWrapper {
-    private final Claims claims;
-    public ClaimsWrapper(Claims claims) { this.claims = claims; }
-    public Claims getBody() { return claims; }
-    public String getSubject() { return claims.getSubject(); }
-}
-
 @Component
 public class JwtUtil {
 
@@ -43,14 +35,14 @@ public class JwtUtil {
 
     public boolean validateToken(String token) {
         try {
-            parseTokenRaw(token);  // use raw claims for validation
+            parseTokenRaw(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
 
-    // ✅ Production / JwtFilter uses this
+    // Used by JwtFilter
     public Claims parseTokenRaw(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -59,8 +51,24 @@ public class JwtUtil {
                 .getBody();
     }
 
-    // ✅ Test calls getBody() on this
+    // ✅ Public static wrapper for test CRT requirement
     public ClaimsWrapper parseToken(String token) {
         return new ClaimsWrapper(parseTokenRaw(token));
+    }
+
+    public static class ClaimsWrapper {
+        private final Claims claims;
+
+        public ClaimsWrapper(Claims claims) {
+            this.claims = claims;
+        }
+
+        public Claims getBody() {
+            return claims;
+        }
+
+        public String getSubject() {
+            return claims.getSubject();
+        }
     }
 }
