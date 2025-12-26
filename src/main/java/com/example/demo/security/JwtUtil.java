@@ -10,38 +10,38 @@ import java.util.Map;
 
 @Component
 public class JwtUtil {
-    
+
     private final SecretKey key;
-    private final long expiration;
-    
+    private final Long expiration;
+
     public JwtUtil() {
         this("abcdefghijklmnopqrstuvwxyz0123456789ABCD", 3600000L);
     }
-    
-    public JwtUtil(String secret, long expiration) {
+
+    public JwtUtil(String secret, Long expiration) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
         this.expiration = expiration;
     }
-    
+
     public String generateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(key)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
-    
+
     public boolean validateToken(String token) {
         try {
             parseToken(token);
             return true;
-        } catch (Exception e) {
+        } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
-    
+
     public Claims parseToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
