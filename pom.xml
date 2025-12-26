@@ -131,8 +131,8 @@
                         </replacement>
 
                         <replacement>
-                            <token>.getBody()</token>
-                            <value></value>
+                            <token>.getBody();</token>
+                            <value>;</value>
                         </replacement>
 
                     </replacements>
