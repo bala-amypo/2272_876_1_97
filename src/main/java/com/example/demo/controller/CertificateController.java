@@ -1,10 +1,4 @@
-package com.example.demo.controller;
-
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-import com.example.demo.entity.Certificate;
-import com.example.demo.service.CertificateService;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/certificates")
@@ -16,31 +10,27 @@ public class CertificateController {
         this.certificateService = certificateService;
     }
 
-    // Only ADMIN can generate certificates
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/generate/{studentId}/{templateId}")
+    @PreAuthorize("hasRole('ADMIN')") // Only admins can generate certificates
     public Certificate generate(@PathVariable Long studentId,
                                @PathVariable Long templateId) {
         return certificateService.generateCertificate(studentId, templateId);
     }
 
-    // ADMIN and STAFF can get by ID
-    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @GetMapping("/{certificateId}")
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')") // Admin and staff can view certificate
     public Certificate get(@PathVariable Long certificateId) {
         return certificateService.getCertificate(certificateId);
     }
 
-    // Public access to verify certificate code
-    @PreAuthorize("permitAll()")
     @GetMapping("/verify/code/{verificationCode}")
+    // Public access: anyone can verify certificate
     public Certificate getCertificateByCode(@PathVariable String verificationCode) {
         return certificateService.findByVerificationCode(verificationCode);
     }
 
-    // ADMIN and STAFF can get certificates by student
-    @PreAuthorize("hasAnyRole('ADMIN', 'STAFF')")
     @GetMapping("/student/{studentId}")
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')") // Admin and staff can view certificates by student
     public List<Certificate> getCertificatesByStudent(@PathVariable Long studentId) {
         return certificateService.findByStudentId(studentId);
     }
