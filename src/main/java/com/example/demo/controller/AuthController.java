@@ -27,8 +27,10 @@ public class AuthController {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
+    // ✅ NO @PreAuthorize HERE
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody RegisterRequest request) {
+
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
@@ -36,28 +38,25 @@ public class AuthController {
                 .role(request.getRole() != null ? request.getRole() : "STAFF")
                 .build();
 
-        User savedUser = userService.register(user);
-        return ResponseEntity.ok(savedUser);
+        return ResponseEntity.ok(userService.register(user));
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest req) {
-        User user;
-        try {
-            user = userService.findByEmail(req.getEmail());
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(401).build(); // user not found
-        }
+
+        User user = userService.findByEmail(req.getEmail());
 
         if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
             return ResponseEntity.status(401).build();
         }
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("email", user.getEmail());
+        claims.put("role", user.getRole());
+
         String token = jwtUtil.generateToken(claims, user.getEmail());
 
-        AuthResponse authResp = new AuthResponse(token, user.getName(), user.getRole());
-        return ResponseEntity.ok(authResp);
+        return ResponseEntity.ok(
+                new AuthResponse(token, user.getName(), user.getRole())
+        );
     }
 }

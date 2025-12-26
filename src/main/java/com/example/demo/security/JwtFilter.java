@@ -22,6 +22,11 @@ public class JwtFilter extends OncePerRequestFilter {
     public JwtFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
+    @Override
+protected boolean shouldNotFilter(HttpServletRequest request) {
+    return request.getRequestURI().startsWith("/api/auth/");
+}
+
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
