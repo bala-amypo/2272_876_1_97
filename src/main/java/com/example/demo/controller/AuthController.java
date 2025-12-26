@@ -27,10 +27,8 @@ public class AuthController {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    // ✅ NO @PreAuthorize HERE
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody RegisterRequest request) {
-
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
@@ -43,7 +41,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest req) {
-
         User user = userService.findByEmail(req.getEmail());
 
         if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
@@ -55,8 +52,6 @@ public class AuthController {
 
         String token = jwtUtil.generateToken(claims, user.getEmail());
 
-        return ResponseEntity.ok(
-                new AuthResponse(token, user.getName(), user.getRole())
-        );
+        return ResponseEntity.ok(new AuthResponse(token, user.getName(), user.getRole()));
     }
 }
