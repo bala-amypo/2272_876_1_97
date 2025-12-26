@@ -23,7 +23,7 @@ public class JwtFilter extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
     }
 
-    // 🔥 THIS IS CRITICAL — AUTH ENDPOINTS BYPASS FILTER
+    // ✅ CRITICAL: skip auth endpoints
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         return request.getRequestURI().startsWith("/api/auth/");
@@ -33,15 +33,17 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
-            FilterChain filterChain)
-            throws ServletException, IOException {
+            FilterChain filterChain
+    ) throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
+
             String token = authHeader.substring(7);
 
             if (jwtUtil.validateToken(token)) {
+
                 Claims claims = jwtUtil.parseTokenRaw(token);
                 String email = claims.getSubject();
                 String role = (String) claims.get("role");
