@@ -41,25 +41,19 @@ public class AuthController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
-        try {
-            User user = userService.findByEmail(request.getEmail());
-            
-            if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-                Map<String, Object> claims = Map.of(
-                    "userId", user.getId(),
-                    "email", user.getEmail(),
-                    "role", user.getRole()
-                );
-                
-                String token = jwtUtil.generateToken(claims, user.getEmail());
-                AuthResponse response = new AuthResponse(token, user.getEmail(), user.getRole());
-                return ResponseEntity.ok(response);
-            } else {
-                return ResponseEntity.status(401).build();
-            }
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(401).build();
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest req) {
+        User user = userRepository.findByEmail(req.getEmail())
+                .orElse(null);
+        if (user == null || !passwordEncoder.matches(req.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(401).build(); // matches test expectation
         }
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("email", user.getEmail());
+        String token = jwtUtil.generateToken(claims, user.getEmail());
+
+        AuthResponse authResp = new AuthResponse(token);
+        return ResponseEntity.ok(authResp);
     }
+
 }
