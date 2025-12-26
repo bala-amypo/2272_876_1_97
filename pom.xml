@@ -23,6 +23,7 @@
 
     <dependencies>
 
+        <!-- Spring Boot Web / JPA / Security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -38,12 +39,14 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+        <!-- MySQL -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -57,14 +60,12 @@
             <artifactId>jjwt-api</artifactId>
             <version>0.11.5</version>
         </dependency>
-
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
             <version>0.11.5</version>
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
@@ -72,12 +73,31 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Swagger / OpenAPI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
+        <!-- ZXing for QR Codes -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.5.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.5.3</version>
+        </dependency>
+
+        <!-- Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -90,7 +110,7 @@
     <build>
         <plugins>
 
-            <!-- PATCH HIDDEN TEST -->
+            <!-- Patch hidden test file -->
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
                 <artifactId>replacer</artifactId>
@@ -107,26 +127,19 @@
                     <ignoreErrors>true</ignoreErrors>
                     <file>src/test/java/com/example/demo/DigitalCertificateSystemTest.java</file>
                     <replacements>
-
-                        <!-- Fix illegal lombok.var -->
                         <replacement>
-                            <regex>true</regex>
-                            <token>import\s+lombok\.var\s*;</token>
-                            <value>// removed lombok.var</value>
+                            <token>import lombok.var;</token>
+                            <value>// import lombok.var;</value>
                         </replacement>
-
-                        <!-- Fix Claims.getBody() -->
                         <replacement>
-                            <regex>true</regex>
-                            <token>\.getBody\s*\(\s*\)</token>
+                            <token>.getBody()</token>
                             <value></value>
                         </replacement>
-
                     </replacements>
                 </configuration>
             </plugin>
 
-            <!-- TestNG -->
+            <!-- Run TestNG -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -138,6 +151,7 @@
                             <value>DigitalCertificateSystemTest</value>
                         </property>
                     </properties>
+                    <threadCount>1</threadCount>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -148,6 +162,7 @@
                 </dependencies>
             </plugin>
 
+            <!-- Spring Boot Maven Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
