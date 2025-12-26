@@ -42,11 +42,37 @@ public class JwtUtil {
         }
     }
 
+    // Raw Claims from token
     public Claims parseTokenRaw(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    // ✅ Wrapper for tests and structured access
+    public ClaimsWrapper parseToken(String token) {
+        return new ClaimsWrapper(parseTokenRaw(token));
+    }
+
+    public static class ClaimsWrapper {
+        private final Claims claims;
+
+        public ClaimsWrapper(Claims claims) {
+            this.claims = claims;
+        }
+
+        public Claims getBody() {
+            return claims;
+        }
+
+        public String getSubject() {
+            return claims.getSubject();
+        }
+
+        public String getRole() {
+            return claims.get("role", String.class);
+        }
     }
 }
