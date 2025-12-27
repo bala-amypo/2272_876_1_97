@@ -16,30 +16,31 @@ public class CertificateController {
         this.certificateService = certificateService;
     }
 
-    // 🔐 ADMIN ONLY
-    @PostMapping("/generate/{studentId}/{templateId}")
+    // ✅ Only ADMIN can generate certificates
     @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/generate/{studentId}/{templateId}")
     public Certificate generate(@PathVariable Long studentId,
                                 @PathVariable Long templateId) {
         return certificateService.generateCertificate(studentId, templateId);
     }
 
-    // 🔐 ADMIN or STAFF
-    @GetMapping("/{certificateId}")
+    // ✅ ADMIN and STAFF can view certificate by ID
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
+    @GetMapping("/{certificateId}")
     public Certificate get(@PathVariable Long certificateId) {
         return certificateService.getCertificate(certificateId);
     }
 
-    // 🌍 PUBLIC (NO AUTH REQUIRED)
+    // ✅ Public verification (no auth required)
+    @PreAuthorize("permitAll()")
     @GetMapping("/verify/code/{verificationCode}")
     public Certificate getCertificateByCode(@PathVariable String verificationCode) {
         return certificateService.findByVerificationCode(verificationCode);
     }
 
-    // 🔐 ADMIN or STAFF
-    @GetMapping("/student/{studentId}")
+    // ✅ ADMIN and STAFF can view student certificates
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
+    @GetMapping("/student/{studentId}")
     public List<Certificate> getCertificatesByStudent(@PathVariable Long studentId) {
         return certificateService.findByStudentId(studentId);
     }
