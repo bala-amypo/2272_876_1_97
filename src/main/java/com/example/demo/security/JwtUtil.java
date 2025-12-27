@@ -15,7 +15,7 @@ public class JwtUtil {
     private final long expiration;
 
     public JwtUtil() {
-        this("abcdefghijklmnopqrstuvwxyz0123456789ABCD", 3600000L); // 1 hour
+        this("abcdefghijklmnopqrstuvwxyz0123456789ABCD", 3600000L);
     }
 
     public JwtUtil(String secret, long expiration) {
@@ -42,7 +42,7 @@ public class JwtUtil {
         }
     }
 
-    // Raw Claims from token
+    // Used by JwtFilter
     public Claims parseTokenRaw(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -51,7 +51,7 @@ public class JwtUtil {
                 .getBody();
     }
 
-    // ✅ Wrapper for tests and structured access
+    // ✅ Public static wrapper for CRT requirement
     public ClaimsWrapper parseToken(String token) {
         return new ClaimsWrapper(parseTokenRaw(token));
     }
@@ -69,10 +69,6 @@ public class JwtUtil {
 
         public String getSubject() {
             return claims.getSubject();
-        }
-
-        public String getRole() {
-            return claims.get("role", String.class);
         }
     }
 }
