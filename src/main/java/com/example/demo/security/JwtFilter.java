@@ -23,13 +23,13 @@ public class JwtFilter extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
     }
 
-    // ✅ THIS IS THE KEY FIX
+    // ✅ HARD BYPASS (NO FILTER EXECUTION AT ALL)
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        String path = request.getServletPath();
-        return path.startsWith("/api/auth/")
-                || path.startsWith("/swagger-ui/")
-                || path.startsWith("/v3/api-docs/");
+        String uri = request.getRequestURI();
+        return uri.startsWith("/api/auth/")
+                || uri.startsWith("/swagger-ui/")
+                || uri.startsWith("/v3/api-docs/");
     }
 
     @Override
@@ -40,26 +40,33 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-
-            String token = authHeader.substring(7);
-
-            if (jwtUtil.validateToken(token)) {
-
-                Claims claims = jwtUtil.parseTokenRaw(token);
-                String email = claims.getSubject();
-                String role = (String) claims.get("role");
-
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                email,
-                                null,
-                                List.of(new SimpleGrantedAuthority("ROLE_" + role))
-                        );
-
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
         }
+
+        String token = authHeader.substring(7);
+
+        if (!jwtUtil.validateToken(token)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // ✅ USE CRT-EXPECTED METHOD
+        JwtUtil.ClaimsWrapper wrapper = jwtUtil.parseToken(token);
+        Claims claims = wrapper.getBody();
+
+        String email = wrapper.getSubject();
+        String role = (String) claims.get("role");
+
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(
+                        email,
+                        null,
+                        List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         filterChain.doFilter(request, response);
     }
