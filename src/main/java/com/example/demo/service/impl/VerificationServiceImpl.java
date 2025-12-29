@@ -34,11 +34,11 @@ public class VerificationServiceImpl implements VerificationService {
                 .status(certificate != null ? "SUCCESS" : "FAILED")
                 .build();
 
-        // Save the log regardless of success or failure
+       
         logRepository.save(log);
 
         if (certificate == null) {
-            // Optional: throw an exception for higher layers if needed
+           
             throw new RuntimeException("Certificate not found");
         }
 

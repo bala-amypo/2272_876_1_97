@@ -19,13 +19,13 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public CertificateTemplate addTemplate(CertificateTemplate template) {
-        // Check for duplicate template name
+      
         Optional<CertificateTemplate> existing = repository.findByTemplateName(template.getTemplateName());
         if (existing.isPresent()) {
             throw new RuntimeException("Template name exists");
         }
 
-        // Optional: validate backgroundUrl as a proper URL
+       
         if (template.getBackgroundUrl() == null || template.getBackgroundUrl().isBlank()) {
             throw new RuntimeException("Invalid template background URL");
         }

@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
         if (user.getRole() == null) {
             user.setRole("STAFF");
         }
-        if (!user.getPassword().startsWith("$2a$")) { // BCrypt hash starts with $2a$
+        if (!user.getPassword().startsWith("$2a$")) { 
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
