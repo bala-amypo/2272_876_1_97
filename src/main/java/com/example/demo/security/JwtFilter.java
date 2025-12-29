@@ -23,7 +23,7 @@ public class JwtFilter extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
     }
 
-    // ✅ HARD BYPASS (NO FILTER EXECUTION AT ALL)
+   
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String uri = request.getRequestURI();
@@ -52,7 +52,7 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        // ✅ USE CRT-EXPECTED METHOD
+        
         JwtUtil.ClaimsWrapper wrapper = jwtUtil.parseToken(token);
         Claims claims = wrapper.getBody();
 

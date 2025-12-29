@@ -42,7 +42,7 @@ public class JwtUtil {
         }
     }
 
-    // Used by JwtFilter
+  
     public Claims parseTokenRaw(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -51,7 +51,7 @@ public class JwtUtil {
                 .getBody();
     }
 
-    // ✅ Public static wrapper for CRT requirement
+    
     public ClaimsWrapper parseToken(String token) {
         return new ClaimsWrapper(parseTokenRaw(token));
     }
