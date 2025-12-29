@@ -19,19 +19,19 @@ public class TemplateController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')") // Only admins can add templates
+    @PreAuthorize("hasRole('ADMIN')") 
     public CertificateTemplate add(@RequestBody CertificateTemplate template) {
         return service.addTemplate(template);
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN','STAFF')") // Admin and staff can view templates
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')") 
     public List<CertificateTemplate> list() {
         return service.getAllTemplates();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','STAFF')") // Admin and staff can get template by ID
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')") 
     public CertificateTemplate getTemplateById(@PathVariable Long id) {
         return service.findById(id);
     }

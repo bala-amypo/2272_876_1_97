@@ -16,7 +16,7 @@ public class CertificateController {
         this.certificateService = certificateService;
     }
 
-    // ✅ Only ADMIN can generate certificates
+    
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/generate/{studentId}/{templateId}")
     public Certificate generate(@PathVariable Long studentId,
@@ -24,7 +24,7 @@ public class CertificateController {
         return certificateService.generateCertificate(studentId, templateId);
     }
 
-    // ✅ ADMIN and STAFF can view certificate by ID
+    
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @GetMapping("/{certificateId}")
     public Certificate get(@PathVariable Long certificateId) {
