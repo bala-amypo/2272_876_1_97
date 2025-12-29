@@ -31,14 +31,14 @@ public class CertificateController {
         return certificateService.getCertificate(certificateId);
     }
 
-    // ✅ Public verification (no auth required)
+    
     @PreAuthorize("permitAll()")
     @GetMapping("/verify/code/{verificationCode}")
     public Certificate getCertificateByCode(@PathVariable String verificationCode) {
         return certificateService.findByVerificationCode(verificationCode);
     }
 
-    // ✅ ADMIN and STAFF can view student certificates
+   
     @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @GetMapping("/student/{studentId}")
     public List<Certificate> getCertificatesByStudent(@PathVariable Long studentId) {
